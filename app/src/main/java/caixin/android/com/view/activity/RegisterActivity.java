@@ -13,11 +13,11 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.caixin.toutiao.R;
 import com.caixin.toutiao.databinding.ActivityRegisterBinding;
 
 import caixin.android.com.base.AppViewModelFactory;
+import caixin.android.com.utils.ToastUtils;
 import caixin.android.com.viewmodel.RegisterViewModel;
 import caixin.android.com.base.BaseActivity;
 import caixin.android.com.utils.MMKVUtil;
@@ -49,142 +49,46 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        mBinding.titleBar.setLeftLayoutClickListener(v -> onBackPressed());
-        mBinding.titleBar.setTitle("注册");
-        mBinding.etPhone.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mBinding.btnGetCode.setEnabled(s.length() >= 11);
-                updateRegisterButton();
-                mBinding.ibtnDeletePhone.setVisibility(TextUtils.isEmpty(s) ? View.GONE : View.VISIBLE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        mBinding.etCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateRegisterButton();
-                mBinding.ibtnDeleteCode.setVisibility(TextUtils.isEmpty(s) ? View.GONE : View.VISIBLE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mBinding.etPwd.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mBinding.ibtnDeletePwd.setVisibility(!TextUtils.isEmpty(s) ? View.VISIBLE : View.GONE);
-                updateRegisterButton();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mBinding.etPwdEnsure.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mBinding.ibtnDeletePwdEnsure.setVisibility(!TextUtils.isEmpty(s) ? View.VISIBLE : View.GONE);
-                updateRegisterButton();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mBinding.etNickname.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mBinding.ibtnDeleteNickname.setVisibility(!TextUtils.isEmpty(s) ? View.VISIBLE : View.GONE);
-                updateRegisterButton();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mBinding.ibtnDeletePwd.setOnClickListener(v -> mBinding.etPwd.setText(""));
-        mBinding.ibtnDeletePwdEnsure.setOnClickListener(v -> mBinding.etPwdEnsure.setText(""));
-        mBinding.ibtnDeletePhone.setOnClickListener(v -> mBinding.etPhone.setText(""));
-        mBinding.ibtnDeleteCode.setOnClickListener(v -> mBinding.etCode.setText(""));
-        mBinding.ibtnDeleteNickname.setOnClickListener(v -> mBinding.etNickname.setText(""));
         mBinding.btnGetCode.setOnClickListener(view -> onClick());
         mBinding.cbPwdShow.setOnCheckedChangeListener((buttonView, isChecked) ->
-                mBinding.etPwd.setInputType(isChecked ?
-                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD));
-
-        mBinding.cbPwdShowEnsure.setOnCheckedChangeListener((buttonView, isChecked) ->
-                mBinding.etPwdEnsure.setInputType(isChecked ?
+                mBinding.editPwd.setInputType(isChecked ?
                         InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD));
 
         mBinding.btnRegist.setOnClickListener(v -> {
-            JSONObject json = new JSONObject();
-            if (!mBinding.etPwdEnsure.getText().toString().equals(mBinding.etPwd.getText().toString())) {
-                ToastUtils.showShort(R.string.Two_input_password);
+
+            String currentUsername = mBinding.editPhone.getText().toString();
+            String currentPassword = mBinding.editPwd.getText().toString();
+            String currentCode = mBinding.editCode.getText().toString();
+
+            if (TextUtils.isEmpty(currentUsername)) {
+                caixin.android.com.utils.ToastUtils.show("手机号不能为空");
                 return;
             }
-            mViewModel.register(mBinding.etPhone.getText().toString(),
-                    mBinding.etNickname.getText().toString(),
-                    mBinding.etPwd.getText().toString(),
-                    mBinding.etCode.getText().toString(),
-                    mBinding.etInviteCode.getText().toString());
+            if (TextUtils.isEmpty(currentCode)) {
+                caixin.android.com.utils.ToastUtils.show("验证码不能为空");
+                return;
+            }
+            if (currentUsername.length() != 11) {
+                caixin.android.com.utils.ToastUtils.show("请输入正确的11位手机号！");
+            }
+            if (TextUtils.isEmpty(currentPassword)) {
+                caixin.android.com.utils.ToastUtils.show(getResources().getString(R.string.Password_cannot_be_empty));
+                return;
+            }
+
+            if (!mBinding.checkbox.isChecked()) {
+                ToastUtils.show("请仔细阅读用户协议条款并勾选");
+                return;
+            }
+
+            mViewModel.register(currentUsername,
+                    "",
+                    currentPassword,
+                    currentCode,
+                    "");
         });
-
-        SoftKeyBroadManager softKeyBroadManager = new SoftKeyBroadManager(mBinding.contentContainer);
-        softKeyBroadManager.addSoftKeyboardStateListener(softKeyboardStateListener);
     }
-
-    SoftKeyBroadManager.SoftKeyboardStateListener softKeyboardStateListener = new SoftKeyBroadManager.SoftKeyboardStateListener() {
-
-        @Override
-        public void onSoftKeyboardOpened(int keyboardHeightInPx) {
-            Log.e(TAG, "onSoftKeyboardOpened: " + keyboardHeightInPx);
-            mBinding.contentContainer.scrollTo(0,keyboardHeightInPx);
-        }
-
-        @Override
-        public void onSoftKeyboardClosed() {
-            mBinding.contentContainer.scrollTo(0,0);
-        }
-    };
 
     @Override
     public void initViewObservable() {
@@ -194,7 +98,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
 
     private void handlerRegister(Object o) {
         showShortToast("注册成功！");
-        MMKVUtil.setLoginPhone(mBinding.etPhone.getText().toString());
+        MMKVUtil.setLoginPhone(mBinding.editPhone.getText().toString());
         MMKVUtil.setLoginPassword("");
         finish();
     }
@@ -209,13 +113,13 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                     @Override
                     public void onSubscribe(Disposable d) {
                         mRegisterDisposable = d;
-                        mBinding.btnGetCode.setEnabled(false);
                     }
 
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onNext(Long aLong) {
                         mBinding.btnGetCode.setText("已发送" + "(" + (60L - aLong) + ")");
+                        mBinding.btnGetCode.setClickable(false);
                     }
 
                     @Override
@@ -227,7 +131,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                     @Override
                     public void onComplete() {
                         mBinding.btnGetCode.setText("获取验证码");
-                        mBinding.btnGetCode.setEnabled(true);
+                        mBinding.btnGetCode.setClickable(true);
                     }
                 });
     }
@@ -249,22 +153,12 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
         }
     }
 
-    private void updateRegisterButton() {
-        mBinding.btnRegist.setEnabled(mBinding.etPhone.getText().length() >= 11 &&
-                !TextUtils.isEmpty(mBinding.etCode.getText().toString()) && mBinding.etCode.getText().toString().length() >= 4 &&
-                !TextUtils.isEmpty(mBinding.etPwd.getText()) &&
-                !TextUtils.isEmpty(mBinding.etPwdEnsure.getText()) &&
-                !TextUtils.isEmpty(mBinding.etNickname.getText()) &&
-                mBinding.etPwdEnsure.getText().length() == mBinding.etPwd.getText().length() &&
-                mBinding.etPwd.length() >= 6);
-    }
-
     private void onClick() {
         new com.adorkable.iosdialog.AlertDialog(RegisterActivity.this)
                 .init()
                 .setTitle("确认电话号码")
-                .setMsg("我们将发送验证码到这个号码 \n" + mBinding.etPhone.getText().toString())
-                .setPositiveButton("好", v1 -> mViewModel.getVerifyCode(mBinding.etPhone.getText().toString(), "1"))
+                .setMsg("我们将发送验证码到这个号码 \n" + mBinding.editPhone.getText().toString())
+                .setPositiveButton("好", v1 -> mViewModel.getVerifyCode(mBinding.editPhone.getText().toString(), "1"))
                 .setNegativeButton("取消", v12 -> {
                 }).show();
     }

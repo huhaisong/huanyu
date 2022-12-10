@@ -277,5 +277,7 @@
     <color name="color_e2e3e7">#e2e3e7</color>
     <color name="color_677294">#677294</color>
     <color name="color_ff5a41">#ff5a41</color>
-    <color name="color_fa6f6f">#fa6f6f</color>//#ffffff
+    <color name="color_fa6f6f">#fa6f6f</color>
+    <color name="color_d8d8d8">#d8d8d8</color>
+    <color name="color_949494">#949494</color>//#ffffff
 </resources>

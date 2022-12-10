@@ -216,6 +216,7 @@
 
         <activity
             android:name="caixin.android.com.view.activity.RegisterActivity"
+            android:theme="@style/LauncherAppTheme"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="caixin.android.com.view.activity.ChatHistoryListActivity"
@@ -323,6 +324,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="caixin.android.com.view.activity.LoginActivity"
+            android:theme="@style/LauncherAppTheme"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="caixin.android.com.view.activity.GroupActivity"

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -13,6 +13,13 @@
         <!--colorAccent 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色。-->
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/white</item>
+    </style>
+
+
+    <style name="LauncherAppTheme" parent="AppTheme">
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="tabTextStyple">

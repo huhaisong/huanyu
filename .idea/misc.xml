@@ -3,11 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_chat_btn_face.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_chat_voice_record_0.xml" value="0.2825" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_f5350d_radius24.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_fa6f6f_radius20.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_fa6f6f_radius24.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/common_tab_bg.xml" value="0.2825" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/selector_btn_login_bg.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/selector_get_code.xml" value="0.2825" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/selector_pwd_show.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/layout/activity_forget_pass.xml" value="0.30052083333333335" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/layout/activity_login.xml" value="0.30052083333333335" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/layout/activity_register.xml" value="0.30052083333333335" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/layout/activity_splash.xml" value="0.30052083333333335" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/layout/widget_title_bar.xml" value="0.30052083333333335" />
       </map>
     </option>
   </component>

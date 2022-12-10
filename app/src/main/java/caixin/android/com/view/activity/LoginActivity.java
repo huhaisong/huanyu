@@ -1,16 +1,10 @@
 package caixin.android.com.view.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.widget.CompoundButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
