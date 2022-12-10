@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_f5350d_radius24.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/selector_btn_login_bg.xml" value="0.2825" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/selector_pwd_show.xml" value="0.2825" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/layout/activity_login.xml" value="0.30052083333333335" />
+        <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/layout/activity_splash.xml" value="0.30052083333333335" />
       </map>
     </option>
   </component>

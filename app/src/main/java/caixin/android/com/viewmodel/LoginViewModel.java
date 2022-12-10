@@ -50,8 +50,6 @@ public class LoginViewModel extends BaseViewModel<UserCenterModel> {
                 }
                 caixin.android.com.Application.getInstance().setIsHttpLogin(true);
                 login();
-
-
             }
 
             @Override
@@ -212,6 +210,4 @@ public class LoginViewModel extends BaseViewModel<UserCenterModel> {
             }
         });
     }
-
-
 }

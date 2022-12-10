@@ -272,5 +272,10 @@
     <color name="easy_photos_bar_primary_translation">#F3B139</color>//b4ffffff  操作栏带透明的色值，如预览页的底部操作栏颜色，相册页的相机按钮背景颜色。
 
     <!--状态栏-->
-    <color name="easy_photos_status_bar">#F3B139</color>//#ffffff
+    <color name="easy_photos_status_bar">#F3B139</color>
+    <color name="color_222222">#222222</color>
+    <color name="color_e2e3e7">#e2e3e7</color>
+    <color name="color_677294">#677294</color>
+    <color name="color_ff5a41">#ff5a41</color>
+    <color name="color_fa6f6f">#fa6f6f</color>//#ffffff
 </resources>
