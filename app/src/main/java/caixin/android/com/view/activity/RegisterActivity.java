@@ -17,6 +17,7 @@ import com.caixin.toutiao.R;
 import com.caixin.toutiao.databinding.ActivityRegisterBinding;
 
 import caixin.android.com.base.AppViewModelFactory;
+import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.utils.ToastUtils;
 import caixin.android.com.viewmodel.RegisterViewModel;
 import caixin.android.com.base.BaseActivity;
@@ -49,7 +50,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        StatusBarUtils.immersive(this, getResources().getColor(R.color.white));
         mBinding.btnGetCode.setOnClickListener(view -> onClick());
         mBinding.cbPwdShow.setOnCheckedChangeListener((buttonView, isChecked) ->
                 mBinding.editPwd.setInputType(isChecked ?

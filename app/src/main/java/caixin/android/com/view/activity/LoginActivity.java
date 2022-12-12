@@ -18,6 +18,7 @@ import caixin.android.com.utils.CommonUtils;
 import caixin.android.com.Application;
 import caixin.android.com.base.BaseActivity;
 import caixin.android.com.utils.MMKVUtil;
+import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.utils.ToastUtils;
 import caixin.android.com.viewmodel.LoginViewModel;
 
@@ -39,6 +40,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        StatusBarUtils.immersive(this, getResources().getColor(R.color.white));
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.getBooleanExtra(Extras.INTENT_LOGIN_AGAIN, false)) {
