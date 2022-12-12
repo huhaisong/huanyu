@@ -265,7 +265,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 addFragment(contactFragment);
                 showFragment(contactFragment);
                 break;
-            case 3:
+            case 2:
                 StatusBarUtils.immersive(MainActivity.this, getResources().getColor(R.color.colorPrimary));
                 if (friendUpdateFragment == null) {
                     friendUpdateFragment = ActivityCenterFragment.newInstance();
@@ -273,7 +273,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 addFragment(friendUpdateFragment);
                 showFragment(friendUpdateFragment);
                 break;
-            case 4:
+            case 3:
                 if (mineFragment == null) {
                     mineFragment = new MineFragment();
                 }
@@ -293,7 +293,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         navigationController = mBinding.pagerBottomTabHome.custom()
                 .addItem(newItem(R.mipmap.ic_message, R.mipmap.ic_message_selected, "消息"))
                 .addItem(newItem(R.mipmap.ic_contacts, R.mipmap.ic_contacts_selected, "通讯录"))
-                .addItem(newItem(R.mipmap.ic_contacts, R.mipmap.ic_contacts_selected, ""))
                 .addItem(newItem(R.mipmap.ic_activity, R.mipmap.ic_activity_selected, getResources().getString(R.string.activity_center)))
                 .addItem(newItem(R.mipmap.ic_mine, R.mipmap.ic_mine_selected, "我的"))
                 .build();
@@ -311,67 +310,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             public void onRepeat(int index) {
             }
         });
-
-        mBinding.llHomeAdd.setOnClickListener(v -> {
-            if (mHomeMenuPop == null) {
-                mHomeMenuPop = new HomeMenuPop(MainActivity.this);
-            }
-            Animation circle_anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_round_rotate);
-            LinearInterpolator interpolator = new LinearInterpolator();  //设置匀速旋转，在xml文件中设置会出现卡顿
-            circle_anim.setInterpolator(interpolator);
-            circle_anim.setFillAfter(true);
-            if (circle_anim != null) {
-                mBinding.ivAdd.startAnimation(circle_anim);  //开始动画
-            }
-            mBinding.viewTranslate.setVisibility(View.VISIBLE);
-            mHomeMenuPop.setListener(new HomeMenuPop.MyOnClick() {
-                @Override
-                public void onClick(HomeMenuItemResponse homeMenuItemAdapter) {
-                    if (homeMenuItemAdapter.getId() == 3) {
-                        startActivity(ChooseCodeHelperActivity.class);
-                    } else if (homeMenuItemAdapter.getId() == 1) {
-                        LiuHeGalleryActivity.navTo(MainActivity.this, LiuHeGalleryActivity.AOMENLIUHE_GALLERY);
-                    } else if (homeMenuItemAdapter.getId() == 2) {
-                        LiuHeGalleryActivity.navTo(MainActivity.this, LiuHeGalleryActivity.XIANGGANGLIUHE_GALLERY);
-                    } else if (homeMenuItemAdapter.getId() == 0) {
-                        startActivity(SignActivity.class);
-                    }else if (homeMenuItemAdapter.getId() == 4) {
-                        startActivity(InterestGameActivity.class);
-                    } else {
-                        final Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(homeMenuItemAdapter.getUrl()));
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intent);
-                        } else {
-                            showShortToast("跳转出错");
-                        }
-                    }
-                    mHomeMenuPop.dismiss();
-                }
-            });
-            mHomeMenuPop.show(mBinding.llHomeAdd);
-            mHomeMenuPop.setOnDismiss(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    mBinding.viewTranslate.setVisibility(View.GONE);
-                    Animation circle_anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_counterclockwise_round_rotate);
-                    LinearInterpolator interpolator = new LinearInterpolator();  //设置匀速旋转，在xml文件中设置会出现卡顿
-                    circle_anim.setInterpolator(interpolator);
-                    circle_anim.setFillAfter(true);
-                    if (circle_anim != null) {
-                        mBinding.ivAdd.startAnimation(circle_anim);  //开始动画
-                    }
-                }
-            });
-        });
     }
 
     private BaseTabItem newItem(int drawable, int checkedDrawable, String text) {
         NormalItemView normalItemView = new NormalItemView(this);
         normalItemView.initialize(drawable, checkedDrawable, text);
         normalItemView.setTextDefaultColor(Color.GRAY);
-        normalItemView.setTextCheckedColor(getResources().getColor(R.color.colorPrimary));
+        normalItemView.setTextCheckedColor(getResources().getColor(R.color.color_ff5a41));
         return normalItemView;
     }
 

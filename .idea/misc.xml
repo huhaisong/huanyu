@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_login.xml" value="0.12771739130434784" />
+        <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_main.xml" value="0.125" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_chat_btn_face.xml" value="0.2825" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_chat_voice_record_0.xml" value="0.2825" />
         <entry key="..\:/demo/toutiao/toutiao/app/src/main/res/drawable/bg_f5350d_radius24.xml" value="0.2825" />
@@ -20,7 +22,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -61,25 +61,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     app:elevation="5dp" />
-
-                <LinearLayout
-                    android:id="@+id/ll_home_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="-10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="10dp">
-
-                    <ImageView
-                        android:id="@+id/iv_add"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/home_add" />
-                </LinearLayout>
-
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
