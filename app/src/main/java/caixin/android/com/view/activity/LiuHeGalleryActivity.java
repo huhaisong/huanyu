@@ -47,7 +47,7 @@ public class LiuHeGalleryActivity extends BaseActivity<ActivityLiuheGalleryBindi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.ivClose.setOnClickListener(v -> finish());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         int type = getIntent().getIntExtra(Extras.TYPE, 0);

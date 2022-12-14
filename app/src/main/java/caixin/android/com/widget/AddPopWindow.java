@@ -61,14 +61,6 @@ public class AddPopWindow extends PopupWindow implements PopupWindow.OnDismissLi
                 dismiss();
             }
         });
-        conentView.findViewById(R.id.ll_create_group).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(context, CreateGroupActivity.class);
-                context.startActivity(intent);
-                dismiss();
-            }
-        });
     }
 
     private static final String TAG = "AddPopWindow";

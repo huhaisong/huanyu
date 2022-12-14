@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">头条</string>
+    <string name="app_name">寰宇通讯</string>
 
     <string name="loading">数据加载中…</string>
     <string name="network_isnot_available">网络不可用</string>
@@ -13,7 +13,7 @@
     <string name="change_password">修改密码</string>
     <string name="online_report">在线举报</string>
     <string name="multiple_send_assistant">群发助手</string>
-    <string name="add_friend">添加好友</string>
+    <string name="add_friend">添加朋友</string>
     <string name="edit_group_name">修改群名称</string>
     <string name="apply_add_friend">申请添加好友</string>
     <string name="user_base_info">基本信息</string>
@@ -55,7 +55,7 @@
     <string name="delete_success">删除成功</string>
     <string name="add_as_friend">加为好友</string>
     <string name="my_qr_code">我的二维码</string>
-    <string name="qr_code_introduce">扫描二维码，加我为好友</string>
+    <string name="qr_code_introduce">扫描上面的二维码，加我为好友</string>
     <string name="save_qr_code">保存二维码</string>
     <string name="introduce_my_app">安全聊天不留痕，我在彩信等你</string>
     <string name="sign_now">立即签到</string>

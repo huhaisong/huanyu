@@ -35,6 +35,7 @@ import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.utils.MMKVUtil;
 import caixin.android.com.view.activity.ChatRoomActivity;
 import caixin.android.com.view.activity.MainActivity;
+import caixin.android.com.widget.AddPopWindow;
 import caixin.android.com.widget.GamItemTouchCallback;
 
 import java.util.ArrayList;
@@ -60,8 +61,6 @@ public class ConversationFragment extends BaseFragment<FragmentConversationBindi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        mBinding.ivClose.setVisibility(View.GONE);
-        mBinding.title.setText("会话");
         initRecycleView();
         mBinding.searchBarView.query.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -88,6 +87,11 @@ public class ConversationFragment extends BaseFragment<FragmentConversationBindi
         mBinding.srConversation.setEnableRefresh(true);
         mBinding.srConversation.setOnRefreshListener(refreshLayout -> {
             mViewModel.init();
+        });
+
+        mBinding.ivAddMore.setOnClickListener(v -> {
+            AddPopWindow popWindow = new AddPopWindow(getActivity());
+            popWindow.showPopupWindow(mBinding.ivAddMore);
         });
         showDialog("");
     }

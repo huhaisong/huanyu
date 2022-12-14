@@ -8,6 +8,7 @@
     <color name="color_30E1E0">#30E1E0</color>
     <color name="textColor">#202020</color>
     <color name="textColorHint">#A0A0A0</color>
+    <color name="background">@color/gray2</color>
     <color name="textColorVice">#6C6C6C</color>
     <color name="viewLineColor">#F0F0F0</color>
     <color name="color_232323">#232323</color>

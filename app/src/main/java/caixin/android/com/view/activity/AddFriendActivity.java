@@ -34,7 +34,6 @@ public class AddFriendActivity extends BaseActivity<ActivityAddFriendBinding, Co
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
         mBinding.ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,13 +69,27 @@ public class AddFriendActivity extends BaseActivity<ActivityAddFriendBinding, Co
                 }
             }
         });
-        mBinding.ivMyQrCode.setOnClickListener(new View.OnClickListener() {
+
+        mBinding.rlQrCode.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 startActivity(MyQRCodeActivity.class);
             }
         });
-        mBinding.tvMyAccount.setText("我的账号：" + MMKVUtil.getUserInfo().getMobile());
+
+        mBinding.rlPhoneContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(PhoneContactListActivity.class);
+            }
+        });
+
+        mBinding.rlScanQrCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ScanActivity.class);
+            }
+        });
     }
 
     @Override

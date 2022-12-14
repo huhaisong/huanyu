@@ -45,7 +45,7 @@ public class MoneyRecodeActivity extends BaseActivity<ActivityMoneyRecodeBinding
     @Override
     public void initData(Bundle savedInstanceState) {
         mBinding.titleBar.setLeftLayoutClickListener(v -> onBackPressed());
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.titleBar.setTitle("余额明细").setTextColor(getResources().getColor(R.color.white));
         mBinding.srWithdrawRecode.setOnLoadMoreListener(refreshLayout -> {
             mViewModel.getMoneyRecodeList(mNextPage);

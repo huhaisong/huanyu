@@ -39,7 +39,7 @@ public class NewFriendActivity extends BaseActivity<ActivityNewFriendBinding, Co
     @Override
     public void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         friendEntity = (FriendEntity) intent.getSerializableExtra(TAG_FRIEND);
         if (friendEntity == null) {
             finish();

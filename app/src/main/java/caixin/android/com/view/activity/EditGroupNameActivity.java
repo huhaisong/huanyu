@@ -38,7 +38,7 @@ public class EditGroupNameActivity extends BaseActivity<ActivityEditGroupNameBin
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         groupID = getIntent().getIntExtra(ChatRoomActivity.TAG_GROUP, -1);
         if (groupID == -1)
             finish();

@@ -52,7 +52,7 @@ public class CreateGroupActivity extends BaseActivity<ActivityCreateGroupBinding
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.etGroupName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

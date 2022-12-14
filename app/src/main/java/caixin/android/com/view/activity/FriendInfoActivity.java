@@ -47,7 +47,6 @@ public class FriendInfoActivity extends BaseActivity<ActivityFriendInfoBinding, 
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
         Intent intent = getIntent();
         friendEntity = (FriendEntity) intent.getSerializableExtra(TAG_FRIEND);
         ImgLoader.GlideLoadCircle(mBinding.ivAvatar, friendEntity.getImg(), R.mipmap.img_user_head);

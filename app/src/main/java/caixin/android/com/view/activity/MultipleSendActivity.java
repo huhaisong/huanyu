@@ -54,7 +54,7 @@ public class MultipleSendActivity extends BaseActivity<ActivityMultipleSendBindi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.ivClose.setOnClickListener(v -> finish());
         friendEntities = FriendDaoManager.getInstance().searchAll();
         mBinding.tvChooseAll.setOnClickListener(new View.OnClickListener() {

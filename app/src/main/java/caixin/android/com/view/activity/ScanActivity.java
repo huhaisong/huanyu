@@ -57,7 +57,6 @@ public class ScanActivity extends BaseActivity<ActivityScanBinding, ContactViewM
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
         mBinding.titleBar.ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

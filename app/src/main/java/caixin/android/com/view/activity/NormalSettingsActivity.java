@@ -22,7 +22,7 @@ public class NormalSettingsActivity extends BaseActivity<ActivityNormalSettingBi
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         return R.layout.activity_normal_setting;
     }
 
