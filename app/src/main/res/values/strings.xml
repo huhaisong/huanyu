@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">头条</string>
+    <string name="app_name">寰宇通讯</string>
 
     <string name="loading">数据加载中…</string>
     <string name="network_isnot_available">网络不可用</string>

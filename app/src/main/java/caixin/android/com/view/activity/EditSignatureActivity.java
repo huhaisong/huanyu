@@ -32,7 +32,6 @@ public class EditSignatureActivity extends BaseActivity<ActivityEditSignatureBin
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
         mBinding.etSignature.setText(MMKVUtil.getUserInfo().getSignature());
         mBinding.tvComplete.setOnClickListener(v -> {
             if (mBinding.etSignature.getText().toString().equals(MMKVUtil.getUserInfo().getSignature())) {

@@ -33,7 +33,6 @@ public class EditNickNameActivity extends BaseActivity<ActivityEditNicknameBindi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
         mBinding.etNickname.setText(MMKVUtil.getUserInfo().getNikeName());
         mBinding.tvComplete.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(mBinding.etNickname.getText())) {
