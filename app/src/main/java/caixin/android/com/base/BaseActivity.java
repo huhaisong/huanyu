@@ -45,7 +45,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         super.onCreate(savedInstanceState);
         //私有的初始化Databinding和ViewModel方法
         handleSSLHandshake();
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
         initViewDataBinding(savedInstanceState);
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();

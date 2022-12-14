@@ -1,41 +1,27 @@
 package caixin.android.com.view.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.caixin.toutiao.R;
 import com.caixin.toutiao.databinding.ActivityMainBinding;
-import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
-import com.kongzue.dialog.util.BaseDialog;
-import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.v3.CustomDialog;
-import com.kongzue.dialog.v3.MessageDialog;
-
-import caixin.android.com.adapter.HomeMenuItemAdapter;
 import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.constant.Extras;
 import caixin.android.com.daomanager.ConversationDaoManager;
@@ -43,12 +29,10 @@ import caixin.android.com.entity.AppVersion;
 import caixin.android.com.entity.ApplyStatusResponse;
 import caixin.android.com.entity.FindItemModel;
 import caixin.android.com.entity.HomeImageAdModel;
-import caixin.android.com.entity.HomeMenuItemResponse;
 import caixin.android.com.entity.NoticePopRequest;
 import caixin.android.com.entity.PopModel;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.entity.base.BaseWebSocketResponse;
-import caixin.android.com.utils.ActionUtil;
 import caixin.android.com.utils.AppUtil;
 import caixin.android.com.utils.DateUtil;
 import caixin.android.com.utils.MMKVUtil;
@@ -56,7 +40,6 @@ import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.utils.WebUtils;
 import caixin.android.com.utils.runtimepermissions.PermissionsManager;
 import caixin.android.com.utils.runtimepermissions.PermissionsResultAction;
-import caixin.android.com.view.fragment.ActivityCenterFragment;
 import caixin.android.com.view.fragment.ContactFragment;
 import caixin.android.com.view.fragment.ConversationFragment;
 import caixin.android.com.view.fragment.MineFragment;
@@ -65,7 +48,6 @@ import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.http.WebSocketManager;
 import caixin.android.com.viewmodel.MainViewModel;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +93,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void initData(Bundle savedInstanceState) {
         INSTANCE = this;
         conversationReponses = ConversationDaoManager.getInstance().searchAll();
-        StatusBarUtils.immersive(MainActivity.this, getResources().getColor(R.color.colorPrimary));
+        StatusBarUtils.darkMode(this);
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             contactFragment = getSupportFragmentManager().getFragment(savedInstanceState, CONVERSATION_FRAGMENT);
@@ -250,7 +232,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private void showFragment(int index) {
         switch (index) {
             case 0:
-                StatusBarUtils.immersive(MainActivity.this, getResources().getColor(R.color.colorPrimary));
                 if (conversationFragment == null) {
                     conversationFragment = new ConversationFragment();
                 }
@@ -258,22 +239,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 showFragment(conversationFragment);
                 break;
             case 1:
-                StatusBarUtils.immersive(MainActivity.this, getResources().getColor(R.color.colorPrimary));
                 if (contactFragment == null) {
                     contactFragment = new ContactFragment();
                 }
                 addFragment(contactFragment);
                 showFragment(contactFragment);
                 break;
-            case 2:
+         /*   case 2:
                 StatusBarUtils.immersive(MainActivity.this, getResources().getColor(R.color.colorPrimary));
                 if (friendUpdateFragment == null) {
                     friendUpdateFragment = ActivityCenterFragment.newInstance();
                 }
                 addFragment(friendUpdateFragment);
                 showFragment(friendUpdateFragment);
-                break;
-            case 3:
+                break;*/
+            case 2:
                 if (mineFragment == null) {
                     mineFragment = new MineFragment();
                 }
@@ -281,8 +261,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 showFragment(mineFragment);
                 ImageView imageView = new ImageView(this);
                 imageView.setBackground(getResources().getDrawable(R.drawable.thumb));
-                StatusBarUtils.setGradientColor(this, mBinding.ivBg);
-//                StatusBarUtils.immersive(MainActivity.this, getResources().getColor(R.color.colorPrimary));
                 break;
         }
     }
@@ -293,7 +271,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         navigationController = mBinding.pagerBottomTabHome.custom()
                 .addItem(newItem(R.mipmap.ic_message, R.mipmap.ic_message_selected, "消息"))
                 .addItem(newItem(R.mipmap.ic_contacts, R.mipmap.ic_contacts_selected, "通讯录"))
-                .addItem(newItem(R.mipmap.ic_activity, R.mipmap.ic_activity_selected, getResources().getString(R.string.activity_center)))
                 .addItem(newItem(R.mipmap.ic_mine, R.mipmap.ic_mine_selected, "我的"))
                 .build();
         //底部按钮的点击事件监听
