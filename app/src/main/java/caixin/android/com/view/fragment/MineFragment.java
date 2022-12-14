@@ -48,17 +48,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         update(MMKVUtil.getUserInfo());
 //        mBinding.rlAbout.setOnClickListener(v -> startActivity(AboutUsActivity.class));
 //        mBinding.rlInformation.setOnClickListener(v -> startActivity(UserInfoActivity.class));
-        mBinding.rlMyMoney.setOnClickListener(v -> startActivity(MyWalletActivity.class));
         mBinding.btnLogout.setOnClickListener(v -> showLogoutDialog());
         mBinding.rlMineInfo.setOnClickListener(v -> startActivity(UserInfoActivity.class));
         mBinding.tvUseAccount.setText("账号：" + MMKVUtil.getUserInfo().getMobile());
         mBinding.rlSecuritySetting.setOnClickListener(v -> startActivity(SecuritySettingsActivity.class));
         mBinding.tvVersionInfo.setText("当前版本：" + AppUtils.getAppVersionName());
         mBinding.rlNormalSetting.setOnClickListener(v -> startActivity(NormalSettingsActivity.class));
-        mBinding.rlOnlineReport.setOnClickListener(v -> startActivity(ReportActivity.class));
-        mBinding.rlGroupSend.setOnClickListener(v -> startActivity(MultipleSendActivity.class));
         mBinding.rlCollect.setOnClickListener(v -> startActivity(CollectListActivity.class));
-        mBinding.rlDailySign.setOnClickListener(v -> startActivity(SignActivity.class));
 
     }
 

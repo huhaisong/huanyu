@@ -53,7 +53,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class ContactFragment extends BaseFragment<FragmentContactBinding, ContactViewModel> implements RadioGroup.OnCheckedChangeListener {
+public class ContactFragment extends BaseFragment<FragmentContactBinding, ContactViewModel> {
     private static final String CONTACT_PERSON_FRAGMENT = "ContactFragment_contactPersonFragment";
     private static final String CONTACT_GROUP_FRAGMENT = "ContactFragment_contactGroupFragment";
     private static final String GROUP_FRAGMENT = "ContactFragment_groupFragment";
@@ -88,22 +88,19 @@ public class ContactFragment extends BaseFragment<FragmentContactBinding, Contac
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        mBinding.title.setText("联系人");
-        mBinding.ivClose.setVisibility(View.GONE);
-        mBinding.rgContainer.setOnCheckedChangeListener(this);
-        mBinding.rlSearch.setOnClickListener(new View.OnClickListener() {
+        mBinding.title.setText("通讯录");
+        mBinding.rlNewFriend.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(PhoneContactListActivity.class);
+            public void onClick(View view) {
+                startActivity(NewFriendApplyActivity.class);
             }
         });
-        mBinding.ivAdd.setOnClickListener(v -> {
-            AddPopWindow popWindow = new AddPopWindow(getActivity());
-            popWindow.showPopupWindow(mBinding.ivAdd);
+
+        mBinding.rlGroupChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
         });
-        mBinding.llScan.setOnClickListener(v -> startActivity(ScanActivity.class));
-        mBinding.llBlacklist.setOnClickListener(v -> startActivity(BlackFriendListActivity.class));
-        mBinding.llNewFriend.setOnClickListener(v -> startActivity(NewFriendApplyActivity.class));
     }
 
     @Override
@@ -123,11 +120,7 @@ public class ContactFragment extends BaseFragment<FragmentContactBinding, Contac
     }
 
     public void setOvalVisibility(boolean ovalVisibility) {
-        if (ovalVisibility) {
-            mBinding.oval.setVisibility(View.VISIBLE);
-        } else {
-            mBinding.oval.setVisibility(View.GONE);
-        }
+
     }
 
     private void addToList(BaseFragment fragment) {
@@ -179,20 +172,6 @@ public class ContactFragment extends BaseFragment<FragmentContactBinding, Contac
                 }
                 addFragment(groupFragment);
                 showFragment(groupFragment);
-                break;
-        }
-    }
-
-    private static final String TAG = "ContactFragment";
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId) {
-            case R.id.rbtn_contact_item:
-                showFragment(0);
-                break;
-            case R.id.rbtn_group:
-                showFragment(2);
                 break;
         }
     }

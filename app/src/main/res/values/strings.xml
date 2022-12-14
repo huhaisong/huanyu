@@ -55,7 +55,7 @@
     <string name="delete_success">删除成功</string>
     <string name="add_as_friend">加为好友</string>
     <string name="my_qr_code">我的二维码</string>
-    <string name="qr_code_introduce">扫描二维码，加我为好友</string>
+    <string name="qr_code_introduce">扫描上面的二维码，加我为好友</string>
     <string name="save_qr_code">保存二维码</string>
     <string name="introduce_my_app">安全聊天不留痕，我在彩信等你</string>
     <string name="sign_now">立即签到</string>

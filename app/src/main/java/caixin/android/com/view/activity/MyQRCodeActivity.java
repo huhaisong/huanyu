@@ -21,8 +21,10 @@ import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
 import caixin.android.com.base.BaseViewModel;
 import caixin.android.com.entity.AppDownloadUrlEntity;
+import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.utils.FileUtil;
 import caixin.android.com.utils.ImageDownLoadAsyTask;
+import caixin.android.com.utils.ImgLoader;
 import caixin.android.com.utils.MMKVUtil;
 import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.viewmodel.HomeViewModel;
@@ -47,7 +49,6 @@ public class MyQRCodeActivity extends BaseActivity<ActivityMyQrCodeBinding, Home
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
         mBinding.titleBar.ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +56,9 @@ public class MyQRCodeActivity extends BaseActivity<ActivityMyQrCodeBinding, Home
             }
         });
         mBinding.titleBar.title.setText(getResources().getString(R.string.my_qr_code));
-        mBinding.tvMyAccount.setText(MMKVUtil.getUserInfo().getMobile());
+        UserInfoEntity userResponse = MMKVUtil.getUserInfo();
+        ImgLoader.GlideLoadCircle(mBinding.ivAvatar, userResponse.getImg(), R.mipmap.img_user_head);
+        mBinding.userNickname.setText(userResponse.getNikeName());
         mViewModel.getAppDownLoadUrl();
         mBinding.tvSaveQrCode.setOnClickListener(new View.OnClickListener() {
             @Override
