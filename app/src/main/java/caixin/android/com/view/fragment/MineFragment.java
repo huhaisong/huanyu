@@ -47,7 +47,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     public void initData(Bundle savedInstanceState) {
         update(MMKVUtil.getUserInfo());
 //        mBinding.rlAbout.setOnClickListener(v -> startActivity(AboutUsActivity.class));
-//        mBinding.rlInformation.setOnClickListener(v -> startActivity(UserInfoActivity.class));
         mBinding.btnLogout.setOnClickListener(v -> showLogoutDialog());
         mBinding.rlMineInfo.setOnClickListener(v -> startActivity(UserInfoActivity.class));
         mBinding.tvUseAccount.setText("账号：" + MMKVUtil.getUserInfo().getMobile());
