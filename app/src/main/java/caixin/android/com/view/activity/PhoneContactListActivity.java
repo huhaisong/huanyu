@@ -58,7 +58,7 @@ public class PhoneContactListActivity extends BaseActivity<ActivityPhoneContactL
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.titleBar.ivClose.setOnClickListener(v -> finish());
         mBinding.titleBar.title.setText(getResources().getString(R.string.phone_contact));
         mBinding.list.setLayoutManager(new LinearLayoutManager(PhoneContactListActivity.this));

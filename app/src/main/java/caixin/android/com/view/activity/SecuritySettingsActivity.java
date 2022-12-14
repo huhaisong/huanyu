@@ -18,7 +18,7 @@ public class SecuritySettingsActivity extends BaseActivity<ActivitySecuritySetti
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         return R.layout.activity_security_settings;
     }
 

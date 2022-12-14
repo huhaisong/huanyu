@@ -33,7 +33,7 @@ import top.zibin.luban.OnCompressListener;
 public class ReportActivity extends BaseActivity<ActivityReportBinding, HomeViewModel> {
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         return R.layout.activity_report;
     }
 

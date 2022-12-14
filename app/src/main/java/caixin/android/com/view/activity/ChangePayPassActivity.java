@@ -40,7 +40,7 @@ public class ChangePayPassActivity extends BaseActivity<ActivityChangePayPassBin
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.etConfirmNewPassword.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
         mBinding.etConfirmNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         mBinding.etNewPassword.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);

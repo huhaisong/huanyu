@@ -38,7 +38,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.titleBar.setLeftLayoutClickListener(v -> finish());
         mBinding.titleBar.setTitle("我的钱包").setTextColor(getResources().getColor(R.color.white));
         mBinding.tvExchange.setOnClickListener(v -> {

@@ -54,7 +54,7 @@ public class ChatHistoryListActivity extends BaseActivity<ActivityChatHistoryLis
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         Bundle bundle = getIntent().getExtras();
         mType = bundle.getInt("type");
         friendId = bundle.getInt("friendId");

@@ -1564,7 +1564,7 @@ public class ChooseCodeHelperActivity extends BaseActivity<ActivityChooseCodeHel
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         //生成邀请二维码
         mBinding.ivClose.setOnClickListener(v -> finish());
         mViewModel.getHelperTMZS();

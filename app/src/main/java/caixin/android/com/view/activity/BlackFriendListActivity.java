@@ -51,7 +51,7 @@ public class BlackFriendListActivity extends BaseActivity<ActivityBlackFriendLis
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         mBinding.titleBar.ivClose.setOnClickListener(v -> onBackPressed());
         mBinding.titleBar.title.setText(getResources().getString(R.string.black_list));
         mBinding.list.setLayoutManager(new LinearLayoutManager(BlackFriendListActivity.this));

@@ -113,7 +113,7 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
     @Override
     public void initData(Bundle savedInstanceState) {
 //        isLogin = false;
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         Intent intent = getIntent();
         mType = intent.getIntExtra("type", 0);

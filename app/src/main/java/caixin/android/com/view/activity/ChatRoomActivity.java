@@ -167,7 +167,7 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
     @Override
     public void initData(Bundle savedInstanceState) {
         INSTANCE = this;
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         Intent intent = getIntent();
         mType = intent.getIntExtra(ChatRoomActivity.CHATROOM_TYPE, 0);

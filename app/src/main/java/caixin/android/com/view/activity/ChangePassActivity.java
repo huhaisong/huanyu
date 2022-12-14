@@ -24,7 +24,7 @@ public class ChangePassActivity extends BaseActivity<ActivityChangePassBinding, 
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        StatusBarUtils.immersive(this, getResources().getColor(R.color.colorPrimary));
+        
         return R.layout.activity_change_pass;
     }
 
