@@ -21,7 +21,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/colorPrimary"
             android:fitsSystemWindows="true"
             android:orientation="horizontal">
 
@@ -33,6 +32,7 @@
                 android:onClick="@{() -> viewModel.onBackPressed()}"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:tint="@color/color_333333"
                 android:src="@mipmap/icon_back" />
 
             <TextView
@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/user_base_info"
-                android:textColor="@color/white"
+                android:textColor="@color/color_333333"
                 android:textSize="18sp"
                 android:typeface="monospace" />
         </RelativeLayout>

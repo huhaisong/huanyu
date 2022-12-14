@@ -10,11 +10,14 @@
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_collect_list.xml" value="0.1" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_edit_nickname.xml" value="0.23822463768115942" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_edit_signature.xml" value="0.23822463768115942" />
+        <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_forget_pass.xml" value="0.18333333333333332" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_friend_info.xml" value="0.23822463768115942" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_login.xml" value="0.12771739130434784" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_main.xml" value="0.125" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_my_qr_code.xml" value="0.23822463768115942" />
+        <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_new_friend.xml" value="0.18333333333333332" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_new_friend_apply.xml" value="0.14479166666666668" />
+        <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_normal_setting.xml" value="0.1" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_scan.xml" value="0.14479166666666668" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/activity_userinfo.xml" value="0.23822463768115942" />
         <entry key="..\:/demo/huanyu/app/src/main/res/layout/fragment_contact.xml" value="0.26621847886098404" />
