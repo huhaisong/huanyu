@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void initData(Bundle savedInstanceState) {
         INSTANCE = this;
         conversationReponses = ConversationDaoManager.getInstance().searchAll();
-        StatusBarUtils.darkMode(this);
+
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             contactFragment = getSupportFragmentManager().getFragment(savedInstanceState, CONVERSATION_FRAGMENT);
