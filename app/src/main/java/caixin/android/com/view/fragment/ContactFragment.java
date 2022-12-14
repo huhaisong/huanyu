@@ -9,47 +9,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.caixin.toutiao.R;
 import com.caixin.toutiao.databinding.FragmentContactBinding;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.downtail.plus.decorations.FloaterItemDecoration;
-import com.downtail.plus.decorations.FloaterView;
 
-import caixin.android.com.adapter.ContactAdapter;
 import caixin.android.com.base.AppViewModelFactory;
-import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.view.activity.AddFriendActivity;
 import caixin.android.com.view.activity.BlackFriendListActivity;
-import caixin.android.com.view.activity.CollectListActivity;
 import caixin.android.com.view.activity.NewFriendApplyActivity;
 import caixin.android.com.view.activity.PhoneContactListActivity;
 import caixin.android.com.view.activity.ScanActivity;
-import caixin.android.com.view.activity.SignActivity;
 import caixin.android.com.viewmodel.ContactViewModel;
 import caixin.android.com.base.BaseFragment;
-import caixin.android.com.daomanager.FriendDaoManager;
-import caixin.android.com.entity.ContactResponse;
-import caixin.android.com.entity.FriendEntity;
-import caixin.android.com.utils.TextUtils;
-import caixin.android.com.view.activity.ChatRoomActivity;
-import caixin.android.com.view.activity.FriendInfoActivity;
-import caixin.android.com.view.activity.GroupActivity;
-import caixin.android.com.view.activity.NewFriendsMsgActivity;
 import caixin.android.com.widget.AddPopWindow;
 
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
