@@ -8,9 +8,10 @@
 
     <FrameLayout
         android:id="@+id/avatar_container"
-        android:layout_below="@id/time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time">
+
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/avatar"
             android:layout_width="40dp"
@@ -37,19 +38,20 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/text_nickName"
         android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/text_nickName"
         android:gravity="center"
         android:textColor="@color/gray3"
         android:textSize="13sp" />
 
     <caixin.android.com.widget.BubbleLayout
+        android:id="@+id/bubble"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_nickName"
-        android:layout_toRightOf="@id/avatar_container"
         android:layout_marginTop="5dp"
         android:layout_marginRight="75dp"
+        android:layout_toRightOf="@id/avatar_container"
         android:clickable="false"
         android:minHeight="40dp"
         android:paddingLeft="10dp"
@@ -72,5 +74,42 @@
             android:textIsSelectable="true"
             android:textSize="14sp" />
     </caixin.android.com.widget.BubbleLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bubble"
+        android:minHeight="40dp"
+        android:visibility="gone"
+        android:layout_marginLeft="5dp"
+        android:layout_alignLeft="@+id/bubble"
+        android:background="@drawable/shape_999999_radius_6"
+        android:layout_marginTop="3dp"
+       >
+
+        <TextView
+            android:id="@+id/tv_reply_content"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/textColorVice"
+            android:text="1111"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_reply"
+            android:layout_width="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_toRightOf="@+id/tv_reply_content" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

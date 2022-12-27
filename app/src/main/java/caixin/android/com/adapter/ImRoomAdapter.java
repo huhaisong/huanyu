@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -395,11 +396,17 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
     class TextVh extends Vh {
 
         TextView mText;
+        TextView tv_reply_content;
+        ImageView iv_reply;
+        RelativeLayout rl_reply;
         private List<String> popupMenuItemList = new ArrayList<>();
 
         public TextVh(View itemView) {
             super(itemView);
             mText = itemView.findViewById(R.id.text);
+            rl_reply = itemView.findViewById(R.id.rl_reply);
+            tv_reply_content = itemView.findViewById(R.id.tv_reply_content);
+            iv_reply = itemView.findViewById(R.id.iv_reply);
         }
 
         @Override
@@ -444,6 +451,29 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
 //                Html.fromHtml(TextRender.renderChatMessage(text).toString());
                 mText.setText(TextRender.renderChatMessage(text));
             }
+
+            if (bean.getReplystatus() == 1) {
+                rl_reply.setVisibility(View.VISIBLE);
+                if (bean.getReplay_pid() == 1) {
+                    tv_reply_content.setText(bean.getReply_data().getContents());
+                    tv_reply_content.setVisibility(View.VISIBLE);
+                    iv_reply.setVisibility(View.GONE);
+                } else if (bean.getReplay_pid() == 3) {
+                    ImgLoader.GlideLoad(iv_reply, bean.getReply_data().getImgurl(), R.mipmap.web_default);
+                    iv_reply.setVisibility(View.VISIBLE);
+                    tv_reply_content.setText("【图片】");
+                } else if (bean.getReplay_pid() == 5) {
+                    iv_reply.setVisibility(View.GONE);
+                    tv_reply_content.setText("【文件】");
+                } else if (bean.getReplay_pid() == 4) {
+                    ImgLoader.GlideLoad(iv_reply, bean.getReply_data().getImgurl(), R.mipmap.web_default);
+                    iv_reply.setVisibility(View.VISIBLE);
+                    tv_reply_content.setText("【视频】");
+                }
+            } else {
+                rl_reply.setVisibility(View.GONE);
+            }
+
         }
     }
 
