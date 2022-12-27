@@ -3,6 +3,8 @@ package caixin.android.com.adapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,10 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.caixin.huanyu.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import caixin.android.com.Application;
+import caixin.android.com.constant.Extras;
 import caixin.android.com.entity.MemberEntity;
 import caixin.android.com.entity.PicChannel;
 import caixin.android.com.entity.SendMessageResponse;
@@ -36,6 +40,8 @@ import caixin.android.com.utils.DpUtil;
 import caixin.android.com.utils.ImgLoader;
 import caixin.android.com.utils.TextRender;
 import caixin.android.com.view.activity.ChatRoomActivity;
+import caixin.android.com.view.activity.PostImageDetailActivity;
+import caixin.android.com.view.activity.SimplePlayer;
 import caixin.android.com.widget.BubbleLayout;
 import caixin.android.com.widget.MyImageView;
 import caixin.android.com.widget.PopupList;
@@ -473,6 +479,18 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                     ImgLoader.GlideLoad(iv_reply, bean.getReply_data().getImgurl(), R.mipmap.web_default);
                     iv_reply.setVisibility(View.VISIBLE);
                     tv_reply_content.setText("【图片】");
+                    rl_reply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            List<String> gTzimglist = new ArrayList<>();
+                            int position = 0;
+                            gTzimglist.add(bean.getReply_data().getImgurl());
+                            Intent intent = new Intent(mContext, PostImageDetailActivity.class);
+                            intent.putExtra(Extras.IMAGES, (Serializable) gTzimglist);
+                            intent.putExtra(Extras.POSITION, position);
+                            mContext.startActivity(intent);
+                        }
+                    });
                 } else if (bean.getReplay_pid() == 5) {
                     iv_reply.setVisibility(View.GONE);
                     tv_reply_content.setText("【文件】");
@@ -480,6 +498,19 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                     ImgLoader.GlideLoad(iv_reply, bean.getReply_data().getThumbImgUrl(), R.mipmap.web_default);
                     iv_reply.setVisibility(View.VISIBLE);
                     tv_reply_content.setText("【视频】");
+                    rl_reply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("source", bean.getReply_data().getImgurl());
+                            bundle.putString("img", bean.getReply_data().getThumbImgUrl());
+                            Intent intent = new Intent(mContext, SimplePlayer.class);
+                            if (bundle != null) {
+                                intent.putExtras(bundle);
+                            }
+                            mContext.startActivity(intent);
+                        }
+                    });
                 }
             } else {
                 rl_reply.setVisibility(View.GONE);

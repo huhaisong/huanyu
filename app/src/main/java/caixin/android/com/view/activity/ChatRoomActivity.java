@@ -1062,7 +1062,14 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
 
     @Override
     public void onAvatarClick(SendMessageResponse bean) {
-//        UserHomeActivity.navTo(ChatRoomActivity.this, bean.getUid());
+        hideSoftInput();
+        List<String> gTzimglist = new ArrayList<>();
+        int position = 0;
+        gTzimglist.add(bean.getHeadImg());
+        Intent intent = new Intent(ChatRoomActivity.this, PostImageDetailActivity.class);
+        intent.putExtra(Extras.IMAGES, (Serializable) gTzimglist);
+        intent.putExtra(Extras.POSITION, position);
+        startActivity(intent);
     }
 
     @Override
