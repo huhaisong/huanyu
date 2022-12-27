@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ import caixin.android.com.view.activity.ChatRoomActivity;
 import caixin.android.com.widget.BubbleLayout;
 import caixin.android.com.widget.MyImageView;
 import caixin.android.com.widget.PopupList;
+import caixin.android.com.widget.TextDialog;
 
 
 /**
@@ -458,6 +460,15 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                     tv_reply_content.setText(bean.getReply_data().getContents());
                     tv_reply_content.setVisibility(View.VISIBLE);
                     iv_reply.setVisibility(View.GONE);
+                    rl_reply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (!ClickUtil.canClick())
+                                return;
+                            TextDialog textDialog = new TextDialog(bean.getReply_data().getContents());
+                            textDialog.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "TextDialog");
+                        }
+                    });
                 } else if (bean.getReplay_pid() == 3) {
                     ImgLoader.GlideLoad(iv_reply, bean.getReply_data().getImgurl(), R.mipmap.web_default);
                     iv_reply.setVisibility(View.VISIBLE);
@@ -466,7 +477,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                     iv_reply.setVisibility(View.GONE);
                     tv_reply_content.setText("【文件】");
                 } else if (bean.getReplay_pid() == 4) {
-                    ImgLoader.GlideLoad(iv_reply, bean.getReply_data().getImgurl(), R.mipmap.web_default);
+                    ImgLoader.GlideLoad(iv_reply, bean.getReply_data().getThumbImgUrl(), R.mipmap.web_default);
                     iv_reply.setVisibility(View.VISIBLE);
                     tv_reply_content.setText("【视频】");
                 }

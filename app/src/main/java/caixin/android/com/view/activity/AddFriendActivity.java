@@ -15,8 +15,6 @@ import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
 import caixin.android.com.daomanager.FriendDaoManager;
 import caixin.android.com.entity.FriendEntity;
-import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.viewmodel.ContactViewModel;
 
 public class AddFriendActivity extends BaseActivity<ActivityAddFriendBinding, ContactViewModel> {
@@ -74,13 +72,6 @@ public class AddFriendActivity extends BaseActivity<ActivityAddFriendBinding, Co
             @Override
             public void onClick(View view) {
                 startActivity(MyQRCodeActivity.class);
-            }
-        });
-
-        mBinding.rlPhoneContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(PhoneContactListActivity.class);
             }
         });
 
