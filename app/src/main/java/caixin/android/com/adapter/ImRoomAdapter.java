@@ -19,10 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.caixin.huanyu.R;
-import com.tencent.mmkv.MMKV;
 
-import caixin.android.com.entity.MemberEntity;
+import java.util.ArrayList;
+import java.util.List;
+
 import caixin.android.com.Application;
+import caixin.android.com.entity.MemberEntity;
 import caixin.android.com.entity.PicChannel;
 import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.utils.ClickUtil;
@@ -30,15 +32,11 @@ import caixin.android.com.utils.DateUtil;
 import caixin.android.com.utils.DimensUtils;
 import caixin.android.com.utils.DpUtil;
 import caixin.android.com.utils.ImgLoader;
-import caixin.android.com.utils.MMKVUtil;
 import caixin.android.com.utils.TextRender;
 import caixin.android.com.view.activity.ChatRoomActivity;
 import caixin.android.com.widget.BubbleLayout;
 import caixin.android.com.widget.MyImageView;
 import caixin.android.com.widget.PopupList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -53,6 +51,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
     private static final int TYPE_IMAGE_RIGHT = 4;
     private static final int TYPE_RED_PACK_LEFT = 5;
     private static final int TYPE_RED_PACK_RIGHT = 6;
+    private static final int TYPE_VIDEO_LEFT = 7;
+    private static final int TYPE_VIDEO_RIGHT = 8;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -60,6 +60,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
     private LayoutInflater mInflater;
     private ActionListener mActionListener;
     private View.OnClickListener mOnImageClickListener;
+    private View.OnClickListener mOnVideoClickListener;
     private View.OnClickListener mOnRedPackClickListener;
     private View.OnLongClickListener mOnAvatarLongClickListener;
     private View.OnClickListener mOnAvatarClickListener;
@@ -84,6 +85,20 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
             if (mActionListener != null) {
                 mActionListener.onImageClick(imageView, mLocation[0], mLocation[1], bean);
             }
+        };
+
+
+        mOnVideoClickListener = v -> {
+            if (!ClickUtil.canClick()) {
+                return;
+            }
+            MyImageView imageView = (MyImageView) v;
+            final int position = imageView.getMsgId();
+            SendMessageResponse bean = mList.get(position);
+            if (mActionListener != null) {
+                mActionListener.onVideoClick(bean);
+            }
+            return;
         };
 
         mOnRedPackClickListener = v -> {
@@ -162,6 +177,18 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 } else {
                     return TYPE_RED_PACK_LEFT;
                 }
+            case SendMessageResponse.TYPE_VIDEO:
+                if (msg.isFromSelf()) {
+                    return TYPE_VIDEO_RIGHT;
+                } else {
+                    return TYPE_VIDEO_LEFT;
+                }
+            case SendMessageResponse.TYPE_FILE:
+                if (msg.isFromSelf()) {
+                    return TYPE_VIDEO_RIGHT;
+                } else {
+                    return TYPE_VIDEO_LEFT;
+                }
         }
         return 0;
     }
@@ -182,6 +209,10 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 return new RedPackVh(mInflater.inflate(R.layout.item_chat_red_pack_left, parent, false));
             case TYPE_RED_PACK_RIGHT:
                 return new RedPackVh(mInflater.inflate(R.layout.item_chat_red_pack_right, parent, false));
+            case TYPE_VIDEO_LEFT:
+                return new VideoVh(mInflater.inflate(R.layout.item_chat_video_left, parent, false));
+            case TYPE_VIDEO_RIGHT:
+                return new SelfVideoVh(mInflater.inflate(R.layout.item_chat_video_right, parent, false));
         }
         return null;
     }
@@ -368,13 +399,6 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         @Override
         public void setData(SendMessageResponse bean, int position, Object payload) {
             super.setData(bean, position, payload);
-           /* if (bean.getManager() == MemberEntity.MANAGER_BOSS) {
-                mText.setTextColor(mContext.getResources().getColor(R.color.darkviolet));
-            } else if (bean.getManager() == MemberEntity.MANAGER_MANAGER) {
-                mText.setTextColor(mContext.getResources().getColor(R.color.red));
-            } else {
-                mText.setTextColor(mContext.getResources().getColor(R.color.textColor));
-            }*/
             if (bean.getTotype() == SendMessageResponse.TOTYPE_GROUP) {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_copy));
@@ -435,13 +459,6 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         @Override
         public void setData(SendMessageResponse bean, int position, Object payload) {
             super.setData(bean, position, payload);
-         /*   if (bean.getManager() == MemberEntity.MANAGER_BOSS) {
-                mText.setTextColor(mContext.getResources().getColor(R.color.darkviolet));
-            } else if (bean.getManager() == MemberEntity.MANAGER_MANAGER) {
-                mText.setTextColor(mContext.getResources().getColor(R.color.red));
-            } else {
-                mText.setTextColor(mContext.getResources().getColor(R.color.textColor));
-            }*/
             if (bean.getTotype() != 0) {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_copy));
@@ -559,6 +576,71 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         }
     }
 
+    class VideoVh extends Vh {
+        MyImageView mImg;
+        public List<String> popupMenuItemList = new ArrayList<>();
+
+        public VideoVh(View itemView) {
+            super(itemView);
+            mImg = (MyImageView) itemView.findViewById(R.id.img);
+            mImg.setOnClickListener(mOnVideoClickListener);
+        }
+
+        @Override
+        public void setData(SendMessageResponse bean, int position, Object payload) {
+            super.setData(bean, position, payload);
+            if ((bean.getImg() != null))
+                if (bean.getImg().getHeight() > 120 || bean.getImg().getWidth() > 120) {
+                    ViewGroup.LayoutParams imageLayoutParams = mImg.getLayoutParams();
+                    int width = (DimensUtils.getScreenWidth() - DimensUtils.dp2Px(mContext, 10)) / 2;
+                    double height;
+                    if (bean.getImg().getWidth() == 0 || bean.getImg().getHeight() == 0) {
+                        height = 500;
+                    } else {
+                        height = (double) width / (double) bean.getImg().getWidth() * bean.getImg().getHeight();
+                    }
+                    imageLayoutParams.width = width;
+                    imageLayoutParams.height = (int) height;
+                    mImg.setLayoutParams(imageLayoutParams);
+                }
+            if (bean.getTotype() == SendMessageResponse.TOTYPE_GROUP) {
+                popupMenuItemList.clear();
+                popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
+                popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                PopupList normalViewPopupList = new PopupList(mContext);
+                normalViewPopupList.bind(mImg, popupMenuItemList, new PopupList.PopupListListener() {
+                    @Override
+                    public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onPopupListClick(View contextView, int contextPosition, int position) {
+                        MyImageView imageView = (MyImageView) contextView;
+                        final int myPosition = imageView.getMsgId();
+                        SendMessageResponse bean = mList.get(myPosition);
+                        if (mActionListener != null) {
+                            if (position == 0) {
+                                mActionListener.onMessageDelete(bean);
+                            } else if (position == 1) {
+                                mActionListener.onMessageCollect(bean);
+                            }
+                        }
+                    }
+                });
+            }
+            if (payload == null) {
+                mImg.setMsgId(position);
+                if (selectedPicChannel > 0) {
+                    String url = bean.getImg().getThumb();
+                    url = url.replaceAll(picChannel.getData().get(0), picChannel.getData().get(selectedPicChannel));
+                    ImgLoader.ChatRoomRoundCorners(url, mImg, R.mipmap.web_default);
+                } else {
+                    ImgLoader.ChatRoomRoundCorners(bean.getImg().getThumb(), mImg, R.mipmap.web_default);
+                }
+            }
+        }
+    }
 
     private int selectedPicChannel;
 
@@ -577,6 +659,49 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         View mLoading;
 
         public SelfImageVh(View itemView) {
+            super(itemView);
+            mFailIcon = itemView.findViewById(R.id.icon_fail);
+            mLoading = itemView.findViewById(R.id.loading);
+        }
+
+        @Override
+        public void setData(SendMessageResponse bean, int position, Object payload) {
+            super.setData(bean, position, payload);
+            if (bean.getTotype() == SendMessageResponse.TOTYPE_FRIEND) {
+                popupMenuItemList.clear();
+                popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
+                popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                PopupList normalViewPopupList = new PopupList(mContext);
+                normalViewPopupList.bind(mImg, popupMenuItemList, new PopupList.PopupListListener() {
+                    @Override
+                    public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onPopupListClick(View contextView, int contextPosition, int position) {
+                        MyImageView imageView = (MyImageView) contextView;
+                        final int myPosition = imageView.getMsgId();
+                        SendMessageResponse bean = mList.get(myPosition);
+                        if (mActionListener != null) {
+                            if (position == 0) {
+                                mActionListener.onMessageDelete(bean);
+                            } else if (position == 1) {
+                                mActionListener.onMessageCollect(bean);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+
+    class SelfVideoVh extends VideoVh {
+        View mFailIcon;
+        View mLoading;
+
+        public SelfVideoVh(View itemView) {
             super(itemView);
             mFailIcon = itemView.findViewById(R.id.icon_fail);
             mLoading = itemView.findViewById(R.id.loading);
@@ -660,6 +785,9 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         void onRedPackClick(SendMessageResponse bean, View view);
 
         void onAvatarClick(SendMessageResponse bean);
+
+        void onVideoClick(SendMessageResponse bean);
+
     }
 
     public void release() {

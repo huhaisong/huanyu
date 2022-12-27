@@ -44,6 +44,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_caixin"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="caixin.android.com.view.activity.SplashActivity"
@@ -246,6 +247,11 @@
         <activity
             android:name="caixin.android.com.view.activity.SearchUserActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="caixin.android.com.view.activity.SimplePlayer"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:screenOrientation="portrait" />
         <activity
             android:name="caixin.android.com.view.activity.LoverActivity"
             android:screenOrientation="portrait"></activity>
@@ -270,18 +276,18 @@
         <activity
             android:name="caixin.android.com.view.activity.PicChannelSelectActivity"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="caixin.android.com.view.activity.CreateGroupActivity"
-            android:screenOrientation="portrait"></activity>
+        <!--    <activity
+                android:name="caixin.android.com.view.activity.CreateGroupActivity"
+                android:screenOrientation="portrait"></activity>-->
         <activity
             android:name="caixin.android.com.view.activity.AddGroupManagerActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="caixin.android.com.view.activity.DeleteGroupManagerActivity"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="caixin.android.com.view.activity.MultipleSendActivity"
-            android:screenOrientation="portrait"></activity>
+        <!--     <activity
+                 android:name="caixin.android.com.view.activity.MultipleSendActivity"
+                 android:screenOrientation="portrait"></activity>-->
         <activity
             android:name="caixin.android.com.view.activity.GroupDetailActivity"
             android:screenOrientation="portrait"></activity>
@@ -291,9 +297,9 @@
         <activity
             android:name="caixin.android.com.view.activity.LiuHeGalleryActivity"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="caixin.android.com.view.activity.MultipleSendChatRoomActivity"
-            android:screenOrientation="portrait"></activity>
+        <!--       <activity
+                   android:name="caixin.android.com.view.activity.MultipleSendChatRoomActivity"
+                   android:screenOrientation="portrait"></activity>-->
         <activity
             android:name="caixin.android.com.view.activity.PhoneContactListActivity"
             android:screenOrientation="portrait"></activity>
@@ -404,9 +410,9 @@
         <activity
             android:name="caixin.android.com.view.activity.SetPayPassActivity"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="caixin.android.com.view.activity.ReportActivity"
-            android:screenOrientation="portrait"></activity>
+        <!--  <activity
+              android:name="caixin.android.com.view.activity.ReportActivity"
+              android:screenOrientation="portrait"></activity>-->
         <activity
             android:name="caixin.android.com.view.activity.ForgetPayPasswordActivity"
             android:screenOrientation="portrait"></activity>

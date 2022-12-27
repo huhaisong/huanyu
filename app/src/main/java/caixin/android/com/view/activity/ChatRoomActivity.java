@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,73 +33,71 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.OSS;
+import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.blankj.utilcode.util.ToastUtils;
+import com.caixin.huanyu.R;
+import com.caixin.huanyu.databinding.ActivityChatRoomBinding;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.kongzue.dialog.v3.CustomDialog;
+import com.koushikdutta.async.ByteBufferList;
+import com.koushikdutta.async.DataEmitter;
+import com.koushikdutta.async.callback.DataCallback;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.style.PictureWindowAnimationStyle;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.yalantis.ucrop.view.OverlayView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import caixin.android.com.adapter.ImChatFacePagerAdapter;
 import caixin.android.com.adapter.ImRoomAdapter;
 import caixin.android.com.adapter.LikeEmojiAdapter;
 import caixin.android.com.base.AppViewModelFactory;
+import caixin.android.com.base.BaseActivity;
+import caixin.android.com.base.BaseModel;
 import caixin.android.com.constant.Contact;
 import caixin.android.com.constant.Extras;
 import caixin.android.com.daomanager.ConversationDaoManager;
 import caixin.android.com.entity.CollectRequest;
 import caixin.android.com.entity.DeleteMessageResponse;
+import caixin.android.com.entity.GroupAdEntity;
 import caixin.android.com.entity.LikeEmojiEntity;
-import caixin.android.com.entity.MemberEntity;
+import caixin.android.com.entity.OOSInfoEntity;
+import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.entity.base.BaseWebSocketResponse;
 import caixin.android.com.entity.chatroom.MessageResponse;
 import caixin.android.com.http.UserCenterModel;
-import caixin.android.com.utils.ActionUtil;
-import caixin.android.com.utils.FaceUtil;
-import caixin.android.com.utils.ImgLoader;
-import caixin.android.com.utils.StatusBarUtils;
-import caixin.android.com.view.fragment.LiveRedPackRobDialogFragment;
-import caixin.android.com.widget.TopGradual;
-import caixin.android.com.adapter.ImChatFacePagerAdapter;
-import caixin.android.com.base.BaseActivity;
-import caixin.android.com.entity.GroupAdEntity;
-import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.http.WebSocketManager;
+import caixin.android.com.utils.ActionUtil;
 import caixin.android.com.utils.AdvertisingUtil;
 import caixin.android.com.utils.ClickUtil;
 import caixin.android.com.utils.DpUtil;
-import caixin.android.com.utils.GlideEngine;
+import caixin.android.com.utils.FaceUtil;
+import caixin.android.com.utils.GlideEngine1;
 import caixin.android.com.utils.KeyBoardHeightUtil;
 import caixin.android.com.utils.MMKVUtil;
+import caixin.android.com.utils.OssService;
 import caixin.android.com.utils.TextRender;
+import caixin.android.com.utils.oss.MyOSSAuthCredentialsProvider;
+import caixin.android.com.view.fragment.LiveRedPackRobDialogFragment;
 import caixin.android.com.viewmodel.ChatViewModel;
 import caixin.android.com.widget.ChatFaceDialog;
 import caixin.android.com.widget.ChatMoreDialog;
 import caixin.android.com.widget.KeyBoardHeightChangeListener;
 import caixin.android.com.widget.MyImageView;
 import caixin.android.com.widget.OnFaceClickListener;
-
-import com.caixin.huanyu.R;
-import com.caixin.huanyu.databinding.ActivityChatRoomBinding;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.Gson;
-import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.constant.Capture;
-import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
-import com.kongzue.dialog.util.BaseDialog;
-import com.kongzue.dialog.util.DialogSettings;
-import com.kongzue.dialog.v3.CustomDialog;
-import com.kongzue.dialog.v3.MessageDialog;
-import com.koushikdutta.async.ByteBufferList;
-import com.koushikdutta.async.DataEmitter;
-import com.koushikdutta.async.callback.DataCallback;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+import caixin.android.com.widget.TopGradual;
 import caixin.android.com.widget.ait.MyTextSpan;
-import top.zibin.luban.Luban;
-import top.zibin.luban.OnCompressListener;
 
 @SuppressLint("ClickableViewAccessibility")
 public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, ChatViewModel> implements View.OnClickListener, KeyBoardHeightChangeListener, OnFaceClickListener, ChatFaceDialog.ActionListener, ChatMoreDialog.ActionListener, ImRoomAdapter.ActionListener, DataCallback, WebSocketManager.ServerMessage {
@@ -172,6 +169,8 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
         Intent intent = getIntent();
         mType = intent.getIntExtra(ChatRoomActivity.CHATROOM_TYPE, 0);
         otherHeadImage = intent.getStringExtra(TAG_HEAD_IMAGE);
+        mWindowAnimationStyle = new PictureWindowAnimationStyle();
+        mWindowAnimationStyle.ofAllAnimation(R.anim.picture_anim_up_in, R.anim.picture_anim_down_out);
         if (mType == TYPE_FRIEND) {
             friendId = intent.getIntExtra(TAG_FRIEND, -1);
         } else if (mType == TYPE_GROUP) {
@@ -493,60 +492,6 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                 }
                 mBinding.edit.setText("");
                 break;
-          /*  case R.id.btn_exclusive_red_pack:
-                if (ActionUtil.isLogin()) {
-                    ToastUtils.showShort("请先登录!");
-                    return;
-                }
-                if (MMKVUtil.getUserInfo().getSpay() == 0) {
-                    MessageDialog.build(this)
-                            .setStyle(DialogSettings.STYLE.STYLE_IOS)
-                            .setTitle("提示")
-                            .setMessage("您还未设置过支付密码，暂不能进行余额兑换，是否现在去设置？")
-                            .setOkButton("立即设置", new OnDialogButtonClickListener() {
-                                @Override
-                                public boolean onClick(BaseDialog baseDialog, View v) {
-                                    startActivity(SetPayPassActivity.class);
-                                    return false;
-                                }
-                            })
-                            .setCancelButton("我再看看")
-                            .show();
-                    return;
-                }
-                if (mType == TYPE_FRIEND) {
-                    SendRedPackActivity.navTo(this, mType, friendId, true);
-                } else {
-                    SendRedPackActivity.navTo(this, mType, groupId, true);
-                }
-                break;*/
-         /*   case R.id.btn_red_pack:
-                if (ActionUtil.isLogin()) {
-                    ToastUtils.showShort("请先登录!");
-                    return;
-                }
-                if (MMKVUtil.getUserInfo().getSpay() == 0) {
-                    MessageDialog.build(this)
-                            .setStyle(DialogSettings.STYLE.STYLE_IOS)
-                            .setTitle("提示")
-                            .setMessage("您还未设置过支付密码，暂不能进行余额兑换，是否现在去设置？")
-                            .setOkButton("立即设置", new OnDialogButtonClickListener() {
-                                @Override
-                                public boolean onClick(BaseDialog baseDialog, View v) {
-                                    startActivity(SetPayPassActivity.class);
-                                    return false;
-                                }
-                            })
-                            .setCancelButton("我再看看")
-                            .show();
-                    return;
-                }
-                if (mType == TYPE_FRIEND) {
-                    SendRedPackActivity.navTo(this, mType, friendId);
-                } else {
-                    SendRedPackActivity.navTo(this, mType, groupId);
-                }
-                break;*/
             case R.id.btn_face:
                 faceClick();
                 break;
@@ -556,14 +501,6 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
             case R.id.btn_add:
                 clickMore();
                 break;
-          /*  case R.id.btn_ziliao:
-                if (ActionUtil.isLogin()) {
-                    ToastUtils.showShort("请先登录!");
-                    return;
-                }
-                isZiliao = true;
-                choosePicture();
-                break;*/
             case R.id.btn_img:
                 if (ActionUtil.isLogin()) {
                     ToastUtils.showShort("请先登录!");
@@ -583,7 +520,8 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
     }
 
     private void choosePicture() {
-        EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
+        openAlbum();
+     /*   EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                 .filter(Type.image())
                 .setGif(false)
                 .setPuzzleMenu(false)
@@ -593,8 +531,62 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                     public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                         new Thread(() -> zipPic(paths)).start();
                     }
+                });*/
+    }
+
+    private void openAlbum() {
+        localMedia = null;
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .imageEngine(GlideEngine1.createGlideEngine())// 外部传入图片加载引擎，必传项
+                .setPictureWindowAnimationStyle(mWindowAnimationStyle)// 自定义相册启动退出动画
+                .isWeChatStyle(true)// 是否开启微信图片选择风格
+                .isUseCustomCamera(true)// 是否使用自定义相机
+                .maxSelectNum(1)// 最大图片选择数量
+                .minSelectNum(1)// 最小选择数量
+                .maxVideoSelectNum(1) // 视频最大选择数量，如果没有单独设置的需求则可以不设置，同用maxSelectNum字段
+                .imageSpanCount(3)// 每行显示个数
+                .isReturnEmpty(true)// 未选择数据时点击按钮是否可以返回
+                .isOriginalImageControl(false)// 是否显示原图控制按钮，如果设置为true则用户可以自由选择是否使用原图，裁剪功能将会失效
+                .isDisplayOriginalSize(true)// 是否显示原文件大小，isOriginalImageControl true有效
+                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
+                .isPreviewImage(false)// 是否可预览图片
+                .isCamera(true)// 是否显示拍照按钮
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .setCameraImageFormat(PictureMimeType.PNG) // 相机图片格式后缀,默认.jpeg
+//                .setCameraAudioFormat(PictureMimeType.AMR)// 录音音频格式后缀,默认.amr
+                .isEnableCrop(false)// 是否裁剪
+                .isCompress(true)// 是否压缩
+                .compressQuality(80)// 图片压缩后输出质量 0~ 100
+                .synOrAsy(true)//同步false或异步true 压缩 默认同步
+                .isGif(true)// 是否显示gif图片
+                .freeStyleCropMode(OverlayView.DEFAULT_FREESTYLE_CROP_MODE)// 裁剪框拖动模式
+                .isCropDragSmoothToCenter(true)// 裁剪框拖动时图片自动跟随居中
+                .isPreviewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
+                .cutOutQuality(90)// 裁剪输出质量 默认100
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
+                    @Override
+                    public void onResult(List<LocalMedia> result) {
+                        if (null == result || result.isEmpty()) {
+                            return;
+                        }
+                        localMedia = result.get(0);
+                        showDialog("发送中...");
+                        publishIsVideo = false;
+                        mViewModel.getOOSInfo();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
                 });
     }
+
+    private LocalMedia localMedia;
+
+    private PictureWindowAnimationStyle mWindowAnimationStyle;
 
     /**
      * 调用摄像头拍照
@@ -602,52 +594,57 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
     private void takePicture() {
         hideMore();
         hideFace();
-        EasyPhotos.createCamera(this)
-                .isCrop(false)
-                .enableSingleCheckedBack(true)
-//                .enableSystemCamera(true)
-                .setCapture(Capture.IMAGE)
-                .start(new SelectCallback() {
+        localMedia = null;
+        PictureSelector.create(ChatRoomActivity.this)
+                .openGallery(PictureMimeType.ofVideo())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .imageEngine(GlideEngine1.createGlideEngine())// 外部传入图片加载引擎，必传项
+                .setPictureWindowAnimationStyle(mWindowAnimationStyle)// 自定义相册启动退出动画
+                .isWeChatStyle(true)// 是否开启微信图片选择风格
+                .isUseCustomCamera(true)// 是否使用自定义相机
+                .maxSelectNum(1)// 最大图片选择数量
+                .minSelectNum(1)// 最小选择数量
+                .maxVideoSelectNum(1) // 视频最大选择数量，如果没有单独设置的需求则可以不设置，同用maxSelectNum字段
+                .imageSpanCount(3)// 每行显示个数
+                .isReturnEmpty(true)// 未选择数据时点击按钮是否可以返回
+                .isOriginalImageControl(false)// 是否显示原图控制按钮，如果设置为true则用户可以自由选择是否使用原图，裁剪功能将会失效
+                .isDisplayOriginalSize(true)// 是否显示原文件大小，isOriginalImageControl true有效
+                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
+                .isPreviewImage(false)// 是否可预览图片
+                .isCamera(true)// 是否显示拍照按钮
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .setCameraImageFormat(PictureMimeType.PNG) // 相机图片格式后缀,默认.jpeg
+//                .setCameraAudioFormat(PictureMimeType.AMR)// 录音音频格式后缀,默认.amr
+                .isEnableCrop(false)// 是否裁剪
+                .isCompress(true)// 是否压缩
+                .compressQuality(80)// 图片压缩后输出质量 0~ 100
+                .synOrAsy(true)//同步false或异步true 压缩 默认同步
+                .isGif(true)// 是否显示gif图片
+                .freeStyleCropMode(OverlayView.DEFAULT_FREESTYLE_CROP_MODE)// 裁剪框拖动模式
+                .isCropDragSmoothToCenter(true)// 裁剪框拖动时图片自动跟随居中
+                .isPreviewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
+                .cutOutQuality(90)// 裁剪输出质量 默认100
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
                     @Override
-                    public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
-                        new Thread(() -> zipPic(paths)).start();
+                    public void onResult(List<LocalMedia> result) {
+                        if (null == result || result.isEmpty()) {
+                            return;
+                        }
+                        localMedia = result.get(0);
+                        publishIsVideo = true;
+                        showDialog("发送中...");
+                        mViewModel.getOOSInfo();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
                     }
                 });
     }
 
     private int picWidth;
     private int picHeight;
-
-    private void zipPic(List<String> list) {
-        showDialog("发送中...");
-        Luban.with(this)
-                .load(list)
-                .ignoreBy(100)
-                .setFocusAlpha(false)
-                .filter(path -> !(TextUtils.isEmpty(path)))
-                .setCompressListener(new OnCompressListener() {
-                    @Override
-                    public void onStart() {
-
-                    }
-
-                    @Override
-                    public void onSuccess(File file) {
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inJustDecodeBounds = true;
-                        BitmapFactory.decodeFile(file.getAbsolutePath(), options); // 此时返回的bitmap为null
-                        picWidth = options.outWidth;
-                        picHeight = options.outHeight;
-                        Log.e(TAG, "onSuccess: picWidth = " + picHeight + ",picWidth = " + picWidth);
-                        mViewModel.publishChatPicture(file, isZiliao);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissDialog();
-                    }
-                }).launch();
-    }
 
     /**
      * 点击表情按钮
@@ -1068,6 +1065,14 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
 //        UserHomeActivity.navTo(ChatRoomActivity.this, bean.getUid());
     }
 
+    @Override
+    public void onVideoClick(SendMessageResponse bean) {
+        Bundle bundle = new Bundle();
+        bundle.putString("source", bean.getImg().getImgurl());
+        bundle.putString("img", bean.getImg().getThumb());
+        startActivity(SimplePlayer.class, bundle);
+    }
+
 
     public void onPopupWindowChanged(int height) {
         onKeyBoardChanged(height);
@@ -1110,6 +1115,89 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
         mViewModel.uc.getGroupAd.observe(this, this::handleGetGroupAd);
         mViewModel.uc.isNoTalkGroup.observe(this, this::handleIsNoTalkGroup);
         mViewModel.uc.getLikeEmoji.observe(this, this::handleGetLikeEmoji);
+        mViewModel.uc.getOOSInfo.observe(this, this::handleGetOOS);
+    }
+
+    private String bucketName = "huanyump";
+    private OssService mService;
+    public static final String OSS_ENDPOINT = "https://oss-accelerate.aliyuncs.com";
+    private boolean publishIsVideo;
+
+    private void handleGetOOS(OOSInfoEntity oosInfoEntity) {
+        if (localMedia != null) {
+            String fileName;
+            String path = localMedia.getPath();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                path = localMedia.getAndroidQToPath();
+            }
+            if (TextUtils.isEmpty(path)) {
+                path = localMedia.getRealPath();
+            }
+            if (TextUtils.isEmpty(path)) {
+                dismissDialog();
+                return;
+            }
+
+            fileName = path.split("/")[path.split("/").length - 1];
+            if (publishIsVideo) {
+                fileName = "mp4_and/" + fileName;
+            } else {
+                fileName = "chat_and/" + fileName;
+            }
+            mService = initOSS(OSS_ENDPOINT, bucketName, "http://112.121.164.18:6161/api/Sts/getStsOuah");
+            //设置上传的callback地址，目前暂时只支持putObject的回调
+            mService.setCallbackAddress(oosInfoEntity.getUrl());
+            String finalFileName = fileName;
+            mService.asyncPutImage(fileName, path, new BaseModel.Callback() {
+                @Override
+                public void onSuccess(Object data, String msg) {
+                    if (publishIsVideo) {
+                        mViewModel.sendVideoToFriend(oosInfoEntity.getUrl() + "/" + finalFileName, oosInfoEntity.getUrl() + "/" + finalFileName, friendId, 140, 140, false);
+                    } else {
+                        if (mType == TYPE_FRIEND) {
+                            mViewModel.sendPicToFriend(oosInfoEntity.getUrl() + "/" + finalFileName, oosInfoEntity.getUrl() + "/" + finalFileName, friendId, 140, 140, false);
+                        } else if (mType == TYPE_GROUP) {
+                            mViewModel.sendPicToGroup(oosInfoEntity.getUrl() + "/" + finalFileName, oosInfoEntity.getUrl() + "/" + finalFileName, groupId, 140, 140, false);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(String msg) {
+
+                }
+
+                @Override
+                public void onDisconnected(String msg) {
+
+                }
+            });
+        }
+    }
+
+    public OssService initOSS(String endpoint, String bucket, String stsServer) {
+
+//        移动端是不安全环境，不建议直接使用阿里云主账号ak，sk的方式。建议使用STS方式。具体参
+//        https://help.aliyun.com/document_detail/31920.html
+//        注意：SDK 提供的 PlainTextAKSKCredentialProvider 只建议在测试环境或者用户可以保证阿里云主账号AK，SK安全的前提下使用。具体使用如下
+//        主账户使用方式
+//        String AK = "******";
+//        String SK = "******";
+//        credentialProvider = new PlainTextAKSKCredentialProvider(AK,SK)
+//        以下是使用STS Sever方式。
+//        如果用STS鉴权模式，推荐使用OSSAuthCredentialProvider方式直接访问鉴权应用服务器，token过期后可以自动更新。
+//        详见：https://help.aliyun.com/document_detail/31920.html
+//        OSSClient的生命周期和应用程序的生命周期保持一致即可。在应用程序启动时创建一个ossClient，在应用程序结束时销毁即可。
+
+        MyOSSAuthCredentialsProvider credentialProvider = new MyOSSAuthCredentialsProvider(stsServer);
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+        conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
+        conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+        OSS oss = new OSSClient(getApplicationContext(), endpoint, credentialProvider, conf);
+        OSSLog.enableLog();
+        return new OssService(oss, bucket);
     }
 
 
@@ -1389,4 +1477,79 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
             }
         }
     }
+
+
+ /*   public void asyncPutImage(String object, String localFile) {
+        final long upload_start = System.currentTimeMillis();
+        OSSLog.logDebug("upload start");
+
+        if (object.equals("")) {
+            Log.w("AsyncPutImage", "ObjectNull");
+            return;
+        }
+
+        File file = new File(localFile);
+        if (!file.exists()) {
+            Log.w("AsyncPutImage", "FileNotExist");
+            Log.w("LocalFile", localFile);
+            return;
+        }
+
+        // 构造上传请求
+        OSSLog.logDebug("create PutObjectRequest ");
+        PutObjectRequest put = new PutObjectRequest(mBucket, object, localFile);
+        put.setCRC64(OSSRequest.CRC64Config.YES);
+        if (mCallbackAddress != null) {
+            // 传入对应的上传回调参数，这里默认使用OSS提供的公共测试回调服务器地址
+            put.setCallbackParam(new HashMap<String, String>() {
+                {
+                    put("callbackUrl", mCallbackAddress);
+                    //callbackBody可以自定义传入的信息
+                    put("callbackBody", "filename=${object}");
+                }
+            });
+        }
+
+        // 异步上传时可以设置进度回调
+        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+            @Override
+            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+                Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+                int progress = (int) (100 * currentSize / totalSize);
+            }
+        });
+
+        OSSLog.logDebug(" asyncPutObject ");
+        OSSAsyncTask task = mOss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+            @Override
+            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+                Log.d("PutObject", "UploadSuccess");
+
+                Log.d("ETag", result.getETag());
+                Log.d("RequestId", result.getRequestId());
+
+                long upload_end = System.currentTimeMillis();
+                OSSLog.logDebug("upload cost: " + (upload_end - upload_start) / 1000f);
+            }
+
+            @Override
+            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+                String info = "";
+                // 请求异常
+                if (clientExcepion != null) {
+                    // 本地异常如网络异常等
+                    clientExcepion.printStackTrace();
+                    info = clientExcepion.toString();
+                }
+                if (serviceException != null) {
+                    // 服务异常
+                    Log.e("ErrorCode", serviceException.getErrorCode());
+                    Log.e("RequestId", serviceException.getRequestId());
+                    Log.e("HostId", serviceException.getHostId());
+                    Log.e("RawMessage", serviceException.getRawMessage());
+                    info = serviceException.toString();
+                }
+            }
+        });
+    }*/
 }

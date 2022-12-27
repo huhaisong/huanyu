@@ -280,5 +280,6 @@
     <color name="color_ff5a41">#ff5a41</color>
     <color name="color_fa6f6f">#fa6f6f</color>
     <color name="color_d8d8d8">#d8d8d8</color>
-    <color name="color_949494">#949494</color>//#ffffff
+    <color name="color_949494">#949494</color>
+    <color name="color_f8f8f8">#f8f8f8</color>//#ffffff
 </resources>

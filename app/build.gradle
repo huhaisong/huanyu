@@ -48,7 +48,7 @@ android {
     }
 
     greendao {
-        schemaVersion 7 //数据库版本号
+        schemaVersion 8 //数据库版本号
         daoPackage 'caixin.android.com.dao'
 // 设置DaoMaster、DaoSession、Dao 包名
         targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用/不要用.
@@ -138,7 +138,6 @@ dependencies {
     implementation rootProject.ext.dependencies.SmartRefreshHeader
 
     implementation rootProject.ext.dependencies.parse
-    implementation rootProject.ext.dependencies.easyphotos
     implementation rootProject.ext.dependencies.eventbus
     implementation rootProject.ext.dependencies.utils
     implementation rootProject.ext.dependencies.itemDecoration
@@ -155,7 +154,6 @@ dependencies {
     }
     //聊天室
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
-    implementation 'com.github.yalantis:ucrop:2.2.3'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'jp.wasabeef:glide-transformations:2.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -165,4 +163,15 @@ dependencies {
     implementation 'com.github.xiaohaibin:XBanner:1.7.0'
     //popwindow
     implementation 'com.lxj:xpopup:2.0.5'
+
+
+    //图片选择器
+    api 'io.github.lucksiege:pictureselector:v2.7.3-rc08'
+    api "androidx.camera:camera-camera2:1.1.0-alpha08"
+
+    implementation 'com.aliyun.dpa:oss-android-sdk:2.9.11'
+
+    api ('com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.1.6-jitpack'){
+        exclude module: 'jetified-gsyVideoPlayer-base-v8.1.6-jitpack'
+    }
 }

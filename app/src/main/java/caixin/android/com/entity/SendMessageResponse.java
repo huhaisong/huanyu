@@ -23,6 +23,8 @@ public class SendMessageResponse implements MultiItemEntity {
     public static final int TYPE_TEXT = 1;    //1 表示为普通消息 2 表示为红包
     public static final int TYPE_IMAGE = 3;
     public static final int TYPE_RED_PACK = 2;
+    public static final int TYPE_VIDEO = 4;
+    public static final int TYPE_FILE = 5;
 
     public static final int PID_TYPE_MESSAGE = 1;
     public static final int PID_TYPE_REDPACK = 2;
@@ -63,15 +65,20 @@ public class SendMessageResponse implements MultiItemEntity {
     /**
      * sort : 0    0代表不置顶，否则代表置顶
      */
-
     private int sort;
+    private int replay_pid;
+    private int replystatus;
+    private String reply;
+    private String reply_data;
 
-    @Generated(hash = 340946581)
+
+    @Generated(hash = 1613474851)
     public SendMessageResponse(Long id, ImgBean img, int sendId, int manager, String headImg, int getId,
-                               int groupId, String groupImage, int pbgid, int assignType, int pid, int uid, int totype,
-                               String groupName, String contents, String addtime, String togroups, int isread,
-                               String nikeName, String touids, String updatetime, String assignTo, boolean red_status,
-                               String tag, int messageId, int is_zl, int unread, int sort) {
+            int groupId, String groupImage, int pbgid, int assignType, int pid, int uid, int totype,
+            String groupName, String contents, String addtime, String togroups, int isread,
+            String nikeName, String touids, String updatetime, String assignTo, boolean red_status,
+            String tag, int messageId, int is_zl, int unread, int sort, int replay_pid, int replystatus,
+            String reply, String reply_data) {
         this.id = id;
         this.img = img;
         this.sendId = sendId;
@@ -100,11 +107,16 @@ public class SendMessageResponse implements MultiItemEntity {
         this.is_zl = is_zl;
         this.unread = unread;
         this.sort = sort;
+        this.replay_pid = replay_pid;
+        this.replystatus = replystatus;
+        this.reply = reply;
+        this.reply_data = reply_data;
     }
 
     @Generated(hash = 1719041837)
     public SendMessageResponse() {
     }
+
 
     public int getUnread() {
         return unread;
@@ -373,6 +385,38 @@ public class SendMessageResponse implements MultiItemEntity {
         this.sort = sort;
     }
 
+    public int getReplay_pid() {
+        return replay_pid;
+    }
+
+    public void setReplay_pid(int replay_pid) {
+        this.replay_pid = replay_pid;
+    }
+
+    public int getReplystatus() {
+        return replystatus;
+    }
+
+    public void setReplystatus(int replystatus) {
+        this.replystatus = replystatus;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public String getReply_data() {
+        return reply_data;
+    }
+
+    public void setReply_data(String reply_data) {
+        this.reply_data = reply_data;
+    }
+
     public static class ImgBean {
 
         /**
@@ -443,7 +487,6 @@ public class SendMessageResponse implements MultiItemEntity {
         }
     }
 
-
     @Override
     public String toString() {
         return "SendMessageResponse{" +
@@ -474,6 +517,11 @@ public class SendMessageResponse implements MultiItemEntity {
                 ", messageId=" + messageId +
                 ", is_zl=" + is_zl +
                 ", unread=" + unread +
+                ", sort=" + sort +
+                ", replay_pid=" + replay_pid +
+                ", replystatus=" + replystatus +
+                ", reply='" + reply + '\'' +
+                ", reply_data='" + reply_data + '\'' +
                 '}';
     }
 }

@@ -1,3 +1,4 @@
+/*
 package caixin.android.com.view.activity;
 
 import android.graphics.BitmapFactory;
@@ -5,34 +6,19 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.lifecycle.ViewModelProviders;
 
 import com.caixin.huanyu.R;
-import com.caixin.huanyu.databinding.ActivityAddFriendBinding;
 import com.caixin.huanyu.databinding.ActivityCreateGroupBinding;
-import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.kongzue.dialog.util.DialogSettings;
-import com.kongzue.dialog.v3.MessageDialog;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
-import caixin.android.com.daomanager.FriendDaoManager;
-import caixin.android.com.entity.FriendEntity;
-import caixin.android.com.utils.GlideEngine;
 import caixin.android.com.utils.ImgLoader;
-import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.viewmodel.ContactViewModel;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -79,7 +65,8 @@ public class CreateGroupActivity extends BaseActivity<ActivityCreateGroupBinding
         mBinding.ivGroupAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EasyPhotos.createAlbum(CreateGroupActivity.this, false, GlideEngine.getInstance())
+              */
+/*  EasyPhotos.createAlbum(CreateGroupActivity.this, false, GlideEngine.getInstance())
                         .filter(Type.image())
                         .setGif(false)
                         .isCrop(true)
@@ -90,7 +77,8 @@ public class CreateGroupActivity extends BaseActivity<ActivityCreateGroupBinding
                             public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                                 new Thread(() -> zipPic(paths)).start();
                             }
-                        });
+                        });*//*
+
             }
         });
 
@@ -148,3 +136,4 @@ public class CreateGroupActivity extends BaseActivity<ActivityCreateGroupBinding
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package caixin.android.com.view.activity;
 
 import android.content.Intent;
@@ -119,3 +120,4 @@ public class MultipleSendActivity extends BaseActivity<ActivityMultipleSendBindi
 
 
 }
+*/

@@ -3,31 +3,27 @@ package caixin.android.com.viewmodel;
 import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.caixin.huanyu.R;
 
-import caixin.android.com.base.BaseModel;
-import caixin.android.com.entity.AddEmojiRequest;
-import caixin.android.com.entity.CollectRequest;
-import caixin.android.com.entity.DeleteEmojiRequest;
-import caixin.android.com.entity.EditEmojiRequest;
-import caixin.android.com.entity.ImageResponse;
-import caixin.android.com.entity.LikeEmojiEntity;
-import caixin.android.com.entity.MyPlatformEntity;
-import caixin.android.com.entity.SendMessageRequest;
-import caixin.android.com.http.UserCenterModel;
-import caixin.android.com.base.BaseViewModel;
-import caixin.android.com.entity.GroupAdEntity;
-import caixin.android.com.entity.SendMessageResponse;
-import caixin.android.com.utils.MMKVUtil;
-
 import java.io.File;
 import java.util.List;
 
+import caixin.android.com.base.BaseModel;
+import caixin.android.com.base.BaseViewModel;
+import caixin.android.com.entity.CollectRequest;
+import caixin.android.com.entity.DeleteEmojiRequest;
+import caixin.android.com.entity.EditEmojiRequest;
+import caixin.android.com.entity.GroupAdEntity;
+import caixin.android.com.entity.LikeEmojiEntity;
+import caixin.android.com.entity.OOSInfoEntity;
+import caixin.android.com.entity.SendMessageRequest;
+import caixin.android.com.entity.SendMessageResponse;
+import caixin.android.com.http.UserCenterModel;
+import caixin.android.com.utils.MMKVUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -67,6 +63,27 @@ public class ChatViewModel extends BaseViewModel<UserCenterModel> {
         });
     }
 
+    public void getOOSInfo() {
+        showDialog();
+        mModel.httpGetOOSInfo(this, new BaseModel.Callback<OOSInfoEntity>() {
+            @Override
+            public void onSuccess(OOSInfoEntity data, String mes) {
+                uc.getOOSInfo.postValue(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                dismissDialog();
+                showShortToast(msg);
+            }
+
+            @Override
+            public void onDisconnected(String msg) {
+                dismissDialog();
+                showShortToast(msg);
+            }
+        });
+    }
 
     public void publishEmojiPictures(File file) {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
@@ -159,6 +176,7 @@ public class ChatViewModel extends BaseViewModel<UserCenterModel> {
         public MutableLiveData<List<String>> publishEmojiPics = new MutableLiveData<>();
         public MutableLiveData<LikeEmojiEntity> AddEmojis = new MutableLiveData<>();
         public MutableLiveData<GroupAdEntity> getGroupAd = new MutableLiveData<>();
+        public MutableLiveData<OOSInfoEntity> getOOSInfo = new MutableLiveData<>();
         public MutableLiveData<Object> addCollect = new MutableLiveData<>();
         public MutableLiveData<Object> deleteEmoji = new MutableLiveData<>();
         public MutableLiveData<Boolean> editEmoji = new MutableLiveData<>();
@@ -238,7 +256,8 @@ public class ChatViewModel extends BaseViewModel<UserCenterModel> {
             @Override
             public void onDisconnected(String msg) {
                 uc.editEmoji.postValue(false);
-                dismissDialog();   }
+                dismissDialog();
+            }
         });
     }
 
@@ -269,6 +288,31 @@ public class ChatViewModel extends BaseViewModel<UserCenterModel> {
             return;
         }
         mModel.sendPicToFriend(MMKVUtil.getUserInfo().getId(), toUid, url, thumb, width, height, isZiliao, new BaseModel.Callback() {
+            @Override
+            public void onSuccess(Object data, String mes) {
+                uc.sendPIC.postValue(data);
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showShortToast(msg);
+                dismissDialog();
+            }
+
+            @Override
+            public void onDisconnected(String msg) {
+                dismissDialog();
+                showShortToast(msg);
+            }
+        });
+    }
+
+    public void sendVideoToFriend(String url, String thumb, int toUid, int width, int height, boolean isZiliao) {
+        if (TextUtils.isEmpty(url) || TextUtils.isEmpty(thumb)) {
+            return;
+        }
+        mModel.sendVideoToFriend(MMKVUtil.getUserInfo().getId(), toUid, url, thumb, width, height, isZiliao, new BaseModel.Callback() {
             @Override
             public void onSuccess(Object data, String mes) {
                 uc.sendPIC.postValue(data);

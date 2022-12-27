@@ -1,3 +1,4 @@
+/*
 package caixin.android.com.view.fragment;
 
 import android.os.Bundle;
@@ -58,3 +59,4 @@ public class FriendUpdateFragment extends BaseFragment<FragmentFriendUpdatesBind
 
     }
 }
+*/

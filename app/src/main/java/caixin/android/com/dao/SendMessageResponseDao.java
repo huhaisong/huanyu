@@ -55,6 +55,10 @@ public class SendMessageResponseDao extends AbstractDao<SendMessageResponse, Lon
         public final static Property Is_zl = new Property(25, int.class, "is_zl", false, "IS_ZL");
         public final static Property Unread = new Property(26, int.class, "unread", false, "UNREAD");
         public final static Property Sort = new Property(27, int.class, "sort", false, "SORT");
+        public final static Property Replay_pid = new Property(28, int.class, "replay_pid", false, "REPLAY_PID");
+        public final static Property Replystatus = new Property(29, int.class, "replystatus", false, "REPLYSTATUS");
+        public final static Property Reply = new Property(30, String.class, "reply", false, "REPLY");
+        public final static Property Reply_data = new Property(31, String.class, "reply_data", false, "REPLY_DATA");
     }
 
     private final ImageList_Converter imgConverter = new ImageList_Converter();
@@ -98,7 +102,11 @@ public class SendMessageResponseDao extends AbstractDao<SendMessageResponse, Lon
                 "\"MESSAGE_ID\" INTEGER NOT NULL ," + // 24: messageId
                 "\"IS_ZL\" INTEGER NOT NULL ," + // 25: is_zl
                 "\"UNREAD\" INTEGER NOT NULL ," + // 26: unread
-                "\"SORT\" INTEGER NOT NULL );"); // 27: sort
+                "\"SORT\" INTEGER NOT NULL ," + // 27: sort
+                "\"REPLAY_PID\" INTEGER NOT NULL ," + // 28: replay_pid
+                "\"REPLYSTATUS\" INTEGER NOT NULL ," + // 29: replystatus
+                "\"REPLY\" TEXT," + // 30: reply
+                "\"REPLY_DATA\" TEXT);"); // 31: reply_data
     }
 
     /** Drops the underlying database table. */
@@ -190,6 +198,18 @@ public class SendMessageResponseDao extends AbstractDao<SendMessageResponse, Lon
         stmt.bindLong(26, entity.getIs_zl());
         stmt.bindLong(27, entity.getUnread());
         stmt.bindLong(28, entity.getSort());
+        stmt.bindLong(29, entity.getReplay_pid());
+        stmt.bindLong(30, entity.getReplystatus());
+ 
+        String reply = entity.getReply();
+        if (reply != null) {
+            stmt.bindString(31, reply);
+        }
+ 
+        String reply_data = entity.getReply_data();
+        if (reply_data != null) {
+            stmt.bindString(32, reply_data);
+        }
     }
 
     @Override
@@ -275,6 +295,18 @@ public class SendMessageResponseDao extends AbstractDao<SendMessageResponse, Lon
         stmt.bindLong(26, entity.getIs_zl());
         stmt.bindLong(27, entity.getUnread());
         stmt.bindLong(28, entity.getSort());
+        stmt.bindLong(29, entity.getReplay_pid());
+        stmt.bindLong(30, entity.getReplystatus());
+ 
+        String reply = entity.getReply();
+        if (reply != null) {
+            stmt.bindString(31, reply);
+        }
+ 
+        String reply_data = entity.getReply_data();
+        if (reply_data != null) {
+            stmt.bindString(32, reply_data);
+        }
     }
 
     @Override
@@ -312,7 +344,11 @@ public class SendMessageResponseDao extends AbstractDao<SendMessageResponse, Lon
             cursor.getInt(offset + 24), // messageId
             cursor.getInt(offset + 25), // is_zl
             cursor.getInt(offset + 26), // unread
-            cursor.getInt(offset + 27) // sort
+            cursor.getInt(offset + 27), // sort
+            cursor.getInt(offset + 28), // replay_pid
+            cursor.getInt(offset + 29), // replystatus
+            cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30), // reply
+            cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31) // reply_data
         );
         return entity;
     }
@@ -347,6 +383,10 @@ public class SendMessageResponseDao extends AbstractDao<SendMessageResponse, Lon
         entity.setIs_zl(cursor.getInt(offset + 25));
         entity.setUnread(cursor.getInt(offset + 26));
         entity.setSort(cursor.getInt(offset + 27));
+        entity.setReplay_pid(cursor.getInt(offset + 28));
+        entity.setReplystatus(cursor.getInt(offset + 29));
+        entity.setReply(cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30));
+        entity.setReply_data(cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31));
      }
     
     @Override

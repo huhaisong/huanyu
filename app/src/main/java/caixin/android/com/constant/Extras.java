@@ -79,6 +79,7 @@ public interface Extras {
     String REQUEST_ACTION_SEND_RED_PACK = "redbag";
     String REQUEST_ACTION_GET_MESSAGE = "getMessage";
     String REQUEST_ACTION_SEND_PIC = "image";
+    String REQUEST_ACTION_SEND_VIDEO = "video";
     String REQUEST_ACTION_FRIEND_AGREE = "agree";
     String REQUEST_ACTION_FRIEND_APPLY = "friend";
     String REQUEST_ACTION_CONVERSATION = "session";

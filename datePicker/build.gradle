@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
-def libVersionName = "1.2.2"
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
@@ -31,15 +29,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-}
-
-publish {
-    userOrg = 'ycuwq'//
-    repoName = 'android'
-    groupId = 'com.ycuwq.widgets'
-    artifactId = 'datepicker'
-    publishVersion = libVersionName
-    desc = 'Android date picker widget'
-    website = 'https://github.com/ycuwq/DatePicker'
-    licences = ['MIT']
 }

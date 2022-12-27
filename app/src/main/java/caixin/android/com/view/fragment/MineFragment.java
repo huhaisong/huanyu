@@ -14,22 +14,16 @@ import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.FragmentMineBinding;
 
 import caixin.android.com.base.AppViewModelFactory;
-import caixin.android.com.view.activity.CollectListActivity;
-import caixin.android.com.view.activity.ForgetPasswordActivity;
-import caixin.android.com.view.activity.MultipleSendActivity;
-import caixin.android.com.view.activity.FriendCommunityActivity;
-import caixin.android.com.view.activity.MyWalletActivity;
-import caixin.android.com.view.activity.NormalSettingsActivity;
-import caixin.android.com.view.activity.ReportActivity;
-import caixin.android.com.view.activity.SecuritySettingsActivity;
-import caixin.android.com.view.activity.SignActivity;
-import caixin.android.com.viewmodel.MineViewModel;
 import caixin.android.com.base.BaseFragment;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.utils.ImgLoader;
 import caixin.android.com.utils.MMKVUtil;
+import caixin.android.com.view.activity.CollectListActivity;
+import caixin.android.com.view.activity.ForgetPasswordActivity;
 import caixin.android.com.view.activity.LoginActivity;
+import caixin.android.com.view.activity.NormalSettingsActivity;
 import caixin.android.com.view.activity.UserInfoActivity;
+import caixin.android.com.viewmodel.MineViewModel;
 
 
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {

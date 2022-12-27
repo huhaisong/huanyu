@@ -1,3 +1,4 @@
+/*
 package caixin.android.com.view.activity;
 
 import android.os.Bundle;
@@ -8,10 +9,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.ActivityReportBinding;
-import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.album.entity.Photo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,11 +16,8 @@ import java.util.List;
 
 import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
-import caixin.android.com.entity.AddMyNewsRequest;
 import caixin.android.com.entity.ReportRequest;
-import caixin.android.com.utils.GlideEngine;
 import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.viewmodel.HomeViewModel;
 import caixin.android.com.widget.UploadImage;
 import caixin.android.com.widget.UploadPictureContainer;
@@ -56,7 +50,8 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, HomeView
 
             @Override
             public void onAddClick() {
-                EasyPhotos.createAlbum(ReportActivity.this, true, GlideEngine.getInstance())
+            */
+/*    EasyPhotos.createAlbum(ReportActivity.this, true, GlideEngine.getInstance())
                         .setCount(9)
                         .filter(Type.image())
                         .setGif(false)
@@ -67,7 +62,8 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, HomeView
                             public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                                 new Thread(() -> zipPic(paths)).start();
                             }
-                        });
+                        });*//*
+
             }
 
             @Override
@@ -146,3 +142,4 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, HomeView
                 }).launch();
     }
 }
+*/

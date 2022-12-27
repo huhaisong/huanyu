@@ -3,30 +3,17 @@ package caixin.android.com.view.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.ActivityEditEmojiBinding;
-import com.caixin.huanyu.databinding.ActivitySelectMemberBinding;
-import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
@@ -36,25 +23,17 @@ import com.kongzue.dialog.v3.MessageDialog;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 
 import caixin.android.com.adapter.EmojiEditAdapter;
-import caixin.android.com.adapter.SelectMemberAdapter;
 import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
 import caixin.android.com.constant.Extras;
 import caixin.android.com.entity.DeleteEmojiRequest;
 import caixin.android.com.entity.EditEmojiRequest;
-import caixin.android.com.entity.FriendEntity;
 import caixin.android.com.entity.LikeEmojiEntity;
-import caixin.android.com.entity.MemberEntity;
-import caixin.android.com.utils.GlideEngine;
 import caixin.android.com.utils.MMKVUtil;
 import caixin.android.com.viewmodel.ChatViewModel;
-import caixin.android.com.viewmodel.EmojiViewModel;
-import caixin.android.com.viewmodel.SendRedPackViewModel;
 import caixin.android.com.widget.friendcicle.GridDividerItemDecoration;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -113,7 +92,7 @@ public class EditEmojiActivity extends BaseActivity<ActivityEditEmojiBinding, Ch
                 }
             } else {
                 if (position == 0) {
-                    EasyPhotos.createAlbum(EditEmojiActivity.this, true, GlideEngine.getInstance())
+                  /*  EasyPhotos.createAlbum(EditEmojiActivity.this, true, GlideEngine.getInstance())
                             .filter(Type.image())
                             .setGif(true)
                             .setPuzzleMenu(false)
@@ -123,7 +102,7 @@ public class EditEmojiActivity extends BaseActivity<ActivityEditEmojiBinding, Ch
                                 public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                                     new Thread(() -> zipPic(paths)).start();
                                 }
-                            });
+                            });*/
                 }
             }
             mAdapter.notifyItemChanged(position);

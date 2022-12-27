@@ -3,27 +3,29 @@ package caixin.android.com.http;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bumptech.glide.RequestManager;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import caixin.android.com.Application;
 import caixin.android.com.base.BaseModel;
+import caixin.android.com.base.BaseViewModel;
 import caixin.android.com.constant.Extras;
 import caixin.android.com.entity.AddMyNewsRequest;
 import caixin.android.com.entity.ApplyGroupRequest;
-import caixin.android.com.entity.CaptchaCheckIt;
-import caixin.android.com.entity.CaptchaGetIt;
 import caixin.android.com.entity.CollectRequest;
-import caixin.android.com.entity.ContactRequest;
+import caixin.android.com.entity.ConversationRequest;
 import caixin.android.com.entity.DeleteEmojiRequest;
+import caixin.android.com.entity.DeleteMessageRequest;
 import caixin.android.com.entity.DeleteNoteRequest;
 import caixin.android.com.entity.EditEmojiRequest;
 import caixin.android.com.entity.EditMangerRequest;
-import caixin.android.com.entity.EditNickNameRequest;
-import caixin.android.com.entity.EditPasswordRequest;
-import caixin.android.com.entity.GetVerifyCodeRequst;
+import caixin.android.com.entity.GetHistoryMessageRequest;
+import caixin.android.com.entity.GetMoreMessageRequest;
 import caixin.android.com.entity.HelperLRHMRequest;
 import caixin.android.com.entity.LiuHeInfoRequest;
 import caixin.android.com.entity.LiuHeRequest;
@@ -38,45 +40,28 @@ import caixin.android.com.entity.NoticePopRequest;
 import caixin.android.com.entity.NotificationRequest;
 import caixin.android.com.entity.ReadMessageRequest;
 import caixin.android.com.entity.RegisterRequest;
-import caixin.android.com.base.BaseViewModel;
-import caixin.android.com.entity.ConversationRequest;
-import caixin.android.com.entity.DeleteMessageRequest;
-import caixin.android.com.entity.EditHeaderRequest;
-import caixin.android.com.entity.GetHistoryMessageRequest;
-import caixin.android.com.entity.GetMoreMessageRequest;
 import caixin.android.com.entity.ReportRequest;
-import caixin.android.com.entity.ResetPassWordRequest;
 import caixin.android.com.entity.SendMessageRequest;
 import caixin.android.com.entity.SendPicRequest;
 import caixin.android.com.entity.SendRedPackMoneyCountLimitResponse;
 import caixin.android.com.entity.SendRedPackRequest;
+import caixin.android.com.entity.SendVideoRequest;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.entity.UserRequest;
-import caixin.android.com.entity.base.BaseResponse;
 import caixin.android.com.entity.base.BaseWebSocketItemRequest;
 import caixin.android.com.entity.base.VerificationImgBaseResponse;
 import caixin.android.com.entity.chatroom.RedPackInformationResponse;
 import caixin.android.com.http.basic.config.HttpConfig;
 import caixin.android.com.http.basic.service.UserCenterService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import caixin.android.com.utils.AESUtil;
 import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.ToastUtils;
 import caixin.android.com.widget.verificationcode.Point;
-import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
-import static caixin.android.com.entity.base.BaseResponse.ERRORCODE_SUCCESS;
-import static caixin.android.com.entity.base.BaseResponse.ERRORCODE_TOKEN_INVAILABLE;
 
 public class UserCenterModel extends BaseModel {
     private volatile static UserCenterModel INSTANCE = null;
@@ -149,7 +134,7 @@ public class UserCenterModel extends BaseModel {
     }
 
     public void httpResetPassword(BaseViewModel baseViewModel, String mobile, String code, String password, Callback callback) {
-        execute(getService(UserCenterService.class).resetPassword(mobile, code,password, MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
+        execute(getService(UserCenterService.class).resetPassword(mobile, code, password, MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
     }
 
     public void httpResetPayPassword(BaseViewModel baseViewModel, String mobile, String code, String pay_pwd, Callback callback) {
@@ -259,6 +244,11 @@ public class UserCenterModel extends BaseModel {
     public void httpGetFriendHistoryMessage(BaseViewModel baseViewModel, int uid, int toUid, int size, Callback callback) {
         execute(getService(UserCenterService.class).getFriendMessage(toUid, size, MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
     }
+
+    public void httpGetOOSInfo(BaseViewModel baseViewModel, Callback callback) {
+        execute(getService(UserCenterService.class).getOOSInfo(MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
+    }
+
 
     public void httpGetImageHistoryMessage(BaseViewModel baseViewModel, int touid, int togroup, int page, int size, Callback callback) {
         execute(getService(UserCenterService.class).getImageHistoryMessage(MMKVUtil.getToken(), size, page, touid, togroup), callback, baseViewModel);
@@ -467,16 +457,8 @@ public class UserCenterModel extends BaseModel {
         execute(getService(UserCenterService.class).getMoneyCountLimit(), callback, baseViewModel);
     }
 
-    public void robRedPack(BaseViewModel baseViewModel, int uid, int rid, Callback<Object> callback) {
-        execute(getService(UserCenterService.class).robRedPack(rid, "grabRedbag", MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
-    }
-
     public void getRedBag(BaseViewModel baseViewModel, int rid, Callback<RedPackInformationResponse> callback) {
         execute(getService(UserCenterService.class).getRedbag(rid, MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
-    }
-
-    public void getMyMoney(BaseViewModel baseViewModel, int uid, Callback<Object> callback) {
-        execute(getService(UserCenterService.class).getMyMoney(MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
     }
 
     public void cashOut(BaseViewModel baseViewModel, int uid, String amount, String ptid, String account, String pay_pwd, Callback<Object> callback) {
@@ -549,48 +531,6 @@ public class UserCenterModel extends BaseModel {
         registerRequest.setPassword(password);
         registerRequest.setNikename(nikeName);
         requestWebSocket(Extras.REQUEST_ACTION_REGISTER, registerRequest, callback, null, true);
-    }
-
-    public void getVerifyCode(String mobile, String type, Callback callback) {
-        GetVerifyCodeRequst getVerifyCodeRequst = new GetVerifyCodeRequst();
-        getVerifyCodeRequst.setMobile(mobile);
-        getVerifyCodeRequst.setType(type);
-//        requestWebSocket(Extras.REQUEST_ACTION_GETVERIFYCODE, getVerifyCodeRequst, callback, null, true);
-    }
-
-    public void resetPassword(String mobile, String code, Callback callback) {
-        ResetPassWordRequest resetPassWordRequest = new ResetPassWordRequest();
-        resetPassWordRequest.setCode(code);
-        resetPassWordRequest.setMobile(mobile);
-//        requestWebSocket(Extras.REQUEST_ACTION_RESET_PASSWORD, resetPassWordRequest, callback, null, true);
-    }
-
-    public void modifyHeader(String src, int uid, Callback callback) {
-        EditHeaderRequest editHeaderRequest = new EditHeaderRequest();
-        editHeaderRequest.setSrc(src);
-        editHeaderRequest.setUid(uid);
-//        requestWebSocket(Extras.REQUEST_ACTION_EDIT_HEADER, editHeaderRequest, callback, null, true);
-    }
-
-    public void modifyNickName(String nickName, int uid, Callback callback) {
-        EditNickNameRequest editNickNameRequest = new EditNickNameRequest();
-        editNickNameRequest.setNikename(nickName);
-        editNickNameRequest.setUid(uid);
-//        requestWebSocket(Extras.REQUEST_ACTION_EDIT_NICKNAME, editNickNameRequest, callback, null, true);
-    }
-
-    public void changePassword(String oldPassword, String newPassword, int uid, Callback callback) {
-        EditPasswordRequest editPasswordRequest = new EditPasswordRequest();
-        editPasswordRequest.setUid(uid);
-        editPasswordRequest.setOldpassword(oldPassword);
-        editPasswordRequest.setPassword(newPassword);
-//        requestWebSocket(Extras.REQUEST_ACTION_EDIT_PASSWORD, editPasswordRequest, callback, null, true);
-    }
-
-    public void getContactList(int uid, Callback callback) {
-        ContactRequest contactRequest = new ContactRequest();
-        contactRequest.setUid(uid);
-//        requestWebSocket(Extras.REQUEST_ACTION_GET_CONTACT, contactRequest, callback, null, true);
     }
 
     public void applyGroup(int uid, int groupId, Callback callback) {
@@ -666,6 +606,23 @@ public class UserCenterModel extends BaseModel {
         sendMessageRequest.setThumb(thumb);
         sendMessageRequest.setWidth(width);
         sendMessageRequest.setHeight(height);
+        if (isZiliao) {
+            sendMessageRequest.setIs_zl(1);
+        } else {
+            sendMessageRequest.setIs_zl(0);
+        }
+        requestWebSocket(Extras.REQUEST_ACTION_SEND_PIC, sendMessageRequest, callback, null, false);
+    }
+
+    public void sendVideoToFriend(int uid, int toUid, String src, String thumb, int width, int height, boolean isZiliao, Callback callback) {
+        SendVideoRequest sendMessageRequest = new SendVideoRequest();
+        sendMessageRequest.setUid(uid);
+        sendMessageRequest.setTouids(toUid);
+        sendMessageRequest.setSrc(src);
+        sendMessageRequest.setThumb(thumb);
+        sendMessageRequest.setWidth(width);
+        sendMessageRequest.setHeight(height);
+        sendMessageRequest.setPid(4);
         if (isZiliao) {
             sendMessageRequest.setIs_zl(1);
         } else {

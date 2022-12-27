@@ -1,3 +1,4 @@
+/*
 package caixin.android.com.view.activity;
 
 import android.annotation.SuppressLint;
@@ -31,11 +32,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.util.ToastUtils;
 import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.ActivityMultipleSendChatRoomBinding;
-import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.constant.Capture;
-import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.koushikdutta.async.ByteBufferList;
 import com.koushikdutta.async.DataEmitter;
 import com.koushikdutta.async.callback.DataCallback;
@@ -64,10 +60,8 @@ import caixin.android.com.utils.ActionUtil;
 import caixin.android.com.utils.ClickUtil;
 import caixin.android.com.utils.DpUtil;
 import caixin.android.com.utils.FaceUtil;
-import caixin.android.com.utils.GlideEngine;
 import caixin.android.com.utils.KeyBoardHeightUtil;
 import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.utils.TextRender;
 import caixin.android.com.viewmodel.HomeViewModel;
 import caixin.android.com.widget.ChatFaceDialog;
@@ -257,9 +251,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
 
     private static final String TAG = "ChatActivity";
 
-    /**
+    */
+/**
      * 隐藏键盘
-     */
+     *//*
+
     private boolean hideSoftInput() {
         if (((KeyBoardHeightChangeListener) this).isSoftInputShowed() && imm != null && mBinding.edit != null) {
             imm.hideSoftInputFromWindow(mBinding.edit.getWindowToken(), 0);
@@ -289,9 +285,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         return false;
     }
 
-    /**
+    */
+/**
      * 隐藏表情弹窗
-     */
+     *//*
+
     private boolean hideFace() {
         if (mChatFaceDialog != null) {
             mChatFaceDialog.dismiss();
@@ -301,9 +299,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         return false;
     }
 
-    /**
+    */
+/**
      * 隐藏更多弹窗
-     */
+     *//*
+
     private boolean hideMore() {
         if (mMoreDialog != null) {
             mMoreDialog.dismiss();
@@ -313,9 +313,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         return false;
     }
 
-    /**
+    */
+/**
      * 聊天栏滚到最底部
-     */
+     *//*
+
     public void chatScrollToBottom() {
         if (mAdapter != null) {
             mAdapter.scrollToBottom();
@@ -372,7 +374,8 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
     }
 
     private void choosePicture() {
-        EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
+     */
+/*   EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                 .filter(Type.image())
                 .setGif(false)
                 .setPuzzleMenu(false)
@@ -382,16 +385,20 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
                     public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                         new Thread(() -> zipPic(paths)).start();
                     }
-                });
+                });*//*
+
     }
 
-    /**
+    */
+/**
      * 调用摄像头拍照
-     */
+     *//*
+
     private void takePicture() {
         hideMore();
         hideFace();
-        EasyPhotos.createCamera(this)
+    */
+/*    EasyPhotos.createCamera(this)
                 .isCrop(false)
                 .enableSingleCheckedBack(true)
 //                .enableSystemCamera(true)
@@ -401,7 +408,8 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
                     public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                         new Thread(() -> zipPic(paths)).start();
                     }
-                });
+                });*//*
+
     }
 
     private int picWidth;
@@ -439,9 +447,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
                 }).launch();
     }
 
-    /**
+    */
+/**
      * 点击表情按钮
-     */
+     *//*
+
     private void faceClick() {
         if (mBinding.btnFace.isChecked()) {
             hideSoftInput();
@@ -453,9 +463,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         }
     }
 
-    /**
+    */
+/**
      * 显示软键盘
-     */
+     *//*
+
     private void showSoftInput() {
         if (!isSoftInputShowed() && imm != null && mBinding.edit != null) {
             imm.showSoftInput(mBinding.edit, InputMethodManager.SHOW_FORCED);
@@ -463,9 +475,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         }
     }
 
-    /**
+    */
+/**
      * 显示表情弹窗
-     */
+     *//*
+
     private void showFace() {
         if (mChatFaceDialog != null && mChatFaceDialog.isShowing()) {
             return;
@@ -485,9 +499,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
 
     private View defaultEmojiView;
 
-    /**
+    */
+/**
      * 初始化表情控件
-     */
+     *//*
+
     private View initFaceView() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.view_friend_cicle_input, null);
@@ -538,9 +554,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         return view;
     }
 
-    /**
+    */
+/**
      * 初始化更多控件
-     */
+     *//*
+
     private View initMoreView() {
         View v = LayoutInflater.from(this).inflate(R.layout.view_chat_more, null);
         mMoreViewHeight = DpUtil.dp2px(200);
@@ -551,26 +569,32 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         return v;
     }
 
-    /**
+    */
+/**
      * 点击输入框
-     */
+     *//*
+
     private void clickInput() {
         mNeedToBottom = false;
         hideFace();
         hideMore();
     }
 
-    /**
+    */
+/**
      * 点击更多按钮
-     */
+     *//*
+
     private void clickMore() {
         hideSoftInput();
         showMore();
     }
 
-    /**
+    */
+/**
      * 显示更多弹窗
-     */
+     *//*
+
     private void showMore() {
         if (mMoreDialog != null && mMoreDialog.isShowing()) {
             return;
@@ -590,9 +614,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
 
     private boolean mNeedToBottom;//是否需要去底部
 
-    /**
+    */
+/**
      * 点击表情图标按钮
-     */
+     *//*
+
     @Override
     public void onFaceClick(String str, int faceImageRes) {
         if (mBinding.edit != null) {
@@ -605,9 +631,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         }
     }
 
-    /**
+    */
+/**
      * 点击表情删除按钮
-     */
+     *//*
+
     @Override
     public void onFaceDeleteClick() {
         if (mBinding.edit != null) {
@@ -718,9 +746,11 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         Log.e(TAG, "onPopupWindowChanged: ");
     }
 
-    /**
+    */
+/**
      * 表情弹窗消失的回调
-     */
+     *//*
+
     @Override
     public void onFaceDialogDismiss() {
         if (mNeedToBottom) {
@@ -779,7 +809,8 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         });
     }
 
-   /* private void handleSendPic(Object o) {
+   */
+/* private void handleSendPic(Object o) {
         if (o == null) {
             mBinding.srlRefresh.setNoMoreData(true);
             return;
@@ -793,7 +824,8 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
             mViewModel.readMessage(sendMessageResponse.getId().intValue());
         }
         runOnUiThread(() -> new Handler().post(() -> mAdapter.insertItem(sendMessageResponse)));
-    }*/
+    }*//*
+
 
     //处理发送消息后的回调
     private void handleSendMessage(Object o) {
@@ -815,4 +847,4 @@ public class MultipleSendChatRoomActivity extends BaseActivity<ActivityMultipleS
         sendMessageResponse.setHeadImg(MMKVUtil.getUserInfo().getImg());
         mAdapter.insertItem(sendMessageResponse);
     }
-}
+}*/

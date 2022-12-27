@@ -1,8 +1,9 @@
 package caixin.android.com.http.basic.service;
 
+import java.util.List;
+
 import caixin.android.com.entity.ActiveModel;
 import caixin.android.com.entity.ActivityEntity;
-import caixin.android.com.entity.AddEmojiRequest;
 import caixin.android.com.entity.AddMyNewsRequest;
 import caixin.android.com.entity.AppDownloadUrlEntity;
 import caixin.android.com.entity.AppVersion;
@@ -15,16 +16,15 @@ import caixin.android.com.entity.CollectEntity;
 import caixin.android.com.entity.CollectRequest;
 import caixin.android.com.entity.ContactResponse;
 import caixin.android.com.entity.DeleteEmojiRequest;
-import caixin.android.com.entity.DeleteMessageRequest;
 import caixin.android.com.entity.DigResponse;
 import caixin.android.com.entity.EditEmojiRequest;
 import caixin.android.com.entity.EditMangerRequest;
 import caixin.android.com.entity.FindItemModel;
 import caixin.android.com.entity.FriendEntity;
 import caixin.android.com.entity.FriendNewsEntity;
+import caixin.android.com.entity.GroupAdEntity;
 import caixin.android.com.entity.HelperLRHMRequest;
 import caixin.android.com.entity.HomeImageAdModel;
-import caixin.android.com.entity.ImageResponse;
 import caixin.android.com.entity.LHCYModel;
 import caixin.android.com.entity.LRHMModel;
 import caixin.android.com.entity.LikeEmojiEntity;
@@ -43,19 +43,15 @@ import caixin.android.com.entity.MyPlatformEntity;
 import caixin.android.com.entity.NewFriendApplyEntity;
 import caixin.android.com.entity.NoticePopRequest;
 import caixin.android.com.entity.NotificationEntity;
+import caixin.android.com.entity.OOSInfoEntity;
 import caixin.android.com.entity.PicChannel;
 import caixin.android.com.entity.PopModel;
 import caixin.android.com.entity.ReportRequest;
+import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.entity.SendRedPackMoneyCountLimitResponse;
 import caixin.android.com.entity.TMZSModel2;
-import caixin.android.com.entity.UserInfo;
-import caixin.android.com.entity.GroupAdEntity;
-import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.entity.base.BaseResponse;
-
-import java.util.List;
-
 import caixin.android.com.entity.base.VerificationImgBaseResponse;
 import caixin.android.com.entity.chatroom.RedPackInformationResponse;
 import io.reactivex.Observable;
@@ -140,7 +136,7 @@ public interface UserCenterService {
 
 
     @POST("/index/users/recoverpwd")
-    Observable<BaseResponse<Object>> resetPassword(@Query("mobile") String mobile, @Query("code") String code,@Query("password") String password, @Query("token") String token);
+    Observable<BaseResponse<Object>> resetPassword(@Query("mobile") String mobile, @Query("code") String code, @Query("password") String password, @Query("token") String token);
 
     @POST("/index/users/editspay")
     Observable<BaseResponse<Object>> resetPayPassword(@Query("mobile") String mobile, @Query("code") String code, @Query("token") String token, @Query("pay_pwd") String pay_pwd);
@@ -167,6 +163,9 @@ public interface UserCenterService {
 
     @POST("/index/message/getMessage")
     Observable<BaseResponse<List<SendMessageResponse>>> getFriendMessage(@Query("touid") int touid, @Query("size") int size, @Query("token") String token);
+
+    @GET("/api/Sts/aliyun")
+    Observable<BaseResponse<OOSInfoEntity>> getOOSInfo(@Query("token") String token);
 
     @POST("/index/message/getMessage")
     Observable<BaseResponse<List<SendMessageResponse>>> getGroupMessage(@Query("togroup") int togroup, @Query("size") int size, @Query("token") String token);

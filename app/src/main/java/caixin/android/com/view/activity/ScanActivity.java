@@ -1,7 +1,8 @@
 package caixin.android.com.view.activity;
 
-import android.app.Activity;
-import android.content.Intent;
+import static caixin.android.com.constant.Config.QR_SEPECIFIC_CODE;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.TextUtils;
@@ -13,33 +14,27 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.ActivityScanBinding;
-import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.kongzue.dialog.util.DialogSettings;
-import com.kongzue.dialog.v3.MessageDialog;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.style.PictureWindowAnimationStyle;
+import com.yalantis.ucrop.view.OverlayView;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
-import caixin.android.com.base.BaseViewModel;
 import caixin.android.com.constant.Config;
 import caixin.android.com.daomanager.FriendDaoManager;
 import caixin.android.com.entity.AppDownloadUrlEntity;
 import caixin.android.com.entity.FriendEntity;
-import caixin.android.com.utils.GlideEngine;
-import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.StatusBarUtils;
+import caixin.android.com.utils.GlideEngine1;
 import caixin.android.com.viewmodel.ContactViewModel;
-import caixin.android.com.viewmodel.HomeViewModel;
-import caixin.android.com.viewmodel.SignViewModel;
 import caixin.android.com.zxing.qrcodecore.QRCodeView;
-
-import static caixin.android.com.constant.Config.QR_SEPECIFIC_CODE;
 
 public class ScanActivity extends BaseActivity<ActivityScanBinding, ContactViewModel> {
     @Override
@@ -64,6 +59,8 @@ public class ScanActivity extends BaseActivity<ActivityScanBinding, ContactViewM
             }
         });
         mBinding.titleBar.title.setText(getResources().getString(R.string.scan));
+        mWindowAnimationStyle = new PictureWindowAnimationStyle();
+        mWindowAnimationStyle.ofAllAnimation(R.anim.picture_anim_up_in, R.anim.picture_anim_down_out);
         mBinding.zxingview.setDelegate(new QRCodeView.Delegate() {
             @Override
             public void onScanQRCodeSuccess(String result) {
@@ -124,7 +121,7 @@ public class ScanActivity extends BaseActivity<ActivityScanBinding, ContactViewM
         mBinding.ivGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EasyPhotos.createAlbum(ScanActivity.this, false, GlideEngine.getInstance())
+             /*   EasyPhotos.createAlbum(ScanActivity.this, false, GlideEngine.getInstance())
                         .setCount(1)
                         .filter(Type.image())
                         .setGif(false)
@@ -136,12 +133,61 @@ public class ScanActivity extends BaseActivity<ActivityScanBinding, ContactViewM
 //                                mBinding.zxingview.startSpotAndShowRect(); // 显示扫描框，并开始识别
                                 mBinding.zxingview.decodeQRCode(paths.get(0));
                             }
+                        });*/
+
+                PictureSelector.create(ScanActivity.this)
+                        .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        .imageEngine(GlideEngine1.createGlideEngine())// 外部传入图片加载引擎，必传项
+                        .setPictureWindowAnimationStyle(mWindowAnimationStyle)// 自定义相册启动退出动画
+                        .isWeChatStyle(true)// 是否开启微信图片选择风格
+                        .isUseCustomCamera(true)// 是否使用自定义相机
+                        .maxSelectNum(1)// 最大图片选择数量
+                        .minSelectNum(1)// 最小选择数量
+                        .maxVideoSelectNum(1) // 视频最大选择数量，如果没有单独设置的需求则可以不设置，同用maxSelectNum字段
+                        .imageSpanCount(3)// 每行显示个数
+                        .isReturnEmpty(true)// 未选择数据时点击按钮是否可以返回
+                        .isOriginalImageControl(false)// 是否显示原图控制按钮，如果设置为true则用户可以自由选择是否使用原图，裁剪功能将会失效
+                        .isDisplayOriginalSize(true)// 是否显示原文件大小，isOriginalImageControl true有效
+                        .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
+                        .isPreviewImage(false)// 是否可预览图片
+                        .isCamera(true)// 是否显示拍照按钮
+                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                        .setCameraImageFormat(PictureMimeType.PNG) // 相机图片格式后缀,默认.jpeg
+//                .setCameraAudioFormat(PictureMimeType.AMR)// 录音音频格式后缀,默认.amr
+                        .isEnableCrop(false)// 是否裁剪
+                        .isCompress(true)// 是否压缩
+                        .compressQuality(80)// 图片压缩后输出质量 0~ 100
+                        .synOrAsy(true)//同步false或异步true 压缩 默认同步
+                        .isGif(true)// 是否显示gif图片
+                        .freeStyleCropMode(OverlayView.DEFAULT_FREESTYLE_CROP_MODE)// 裁剪框拖动模式
+                        .isCropDragSmoothToCenter(true)// 裁剪框拖动时图片自动跟随居中
+                        .isPreviewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
+                        .cutOutQuality(90)// 裁剪输出质量 默认100
+                        .minimumCompressSize(100)// 小于100kb的图片不压缩
+                        .forResult(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(List<LocalMedia> result) {
+                                if (null == result || result.isEmpty()) {
+                                    return;
+                                }
+                                String path = result.get(0).getPath();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    path = result.get(0).getAndroidQToPath();
+                                }
+                                mBinding.zxingview.decodeQRCode(path);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
                         });
             }
         });
     }
 
     private static final String TAG = "ScanActivity";
+    private PictureWindowAnimationStyle mWindowAnimationStyle;
 
     @Override
     public void initViewObservable() {

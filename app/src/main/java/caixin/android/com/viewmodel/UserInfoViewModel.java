@@ -5,17 +5,16 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.io.File;
+import java.util.List;
+
 import caixin.android.com.base.BaseModel;
 import caixin.android.com.base.BaseViewModel;
-import caixin.android.com.entity.ImageResponse;
+import caixin.android.com.entity.OOSInfoEntity;
 import caixin.android.com.entity.PicChannel;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.http.UserCenterModel;
 import caixin.android.com.utils.MMKVUtil;
-
-import java.io.File;
-import java.util.List;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -47,6 +46,29 @@ public class UserInfoViewModel extends BaseViewModel<UserCenterModel> {
             @Override
             public void onDisconnected(String msg) {
 
+            }
+        });
+    }
+
+
+    public void getOOSInfo() {
+        showDialog();
+        mModel.httpGetOOSInfo(this, new BaseModel.Callback<OOSInfoEntity>() {
+            @Override
+            public void onSuccess(OOSInfoEntity data, String mes) {
+                uc.getOOSInfo.postValue(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                dismissDialog();
+                showShortToast(msg);
+            }
+
+            @Override
+            public void onDisconnected(String msg) {
+                dismissDialog();
+                showShortToast(msg);
             }
         });
     }
@@ -107,6 +129,7 @@ public class UserInfoViewModel extends BaseViewModel<UserCenterModel> {
         public MutableLiveData<PicChannel> getPicChannel = new MutableLiveData<>();
         public MutableLiveData<Object> deletFriend = new MutableLiveData<>();
         public MutableLiveData<Object> deleteConversation = new MutableLiveData<>();
+        public MutableLiveData<OOSInfoEntity> getOOSInfo = new MutableLiveData<>();
     }
 
     public UserInfoViewModel(@NonNull Application application, UserCenterModel model) {

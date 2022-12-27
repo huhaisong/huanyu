@@ -1,12 +1,9 @@
 package caixin.android.com.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-
-import com.bumptech.glide.RequestManager;
 
 import java.io.File;
 import java.util.List;
@@ -18,15 +15,8 @@ import caixin.android.com.entity.AddMyNewsRequest;
 import caixin.android.com.entity.CollectRequest;
 import caixin.android.com.entity.DigResponse;
 import caixin.android.com.entity.FriendNewsEntity;
-import caixin.android.com.entity.UserInfo;
-import caixin.android.com.entity.base.BaseResponse;
+import caixin.android.com.entity.OOSInfoEntity;
 import caixin.android.com.http.UserCenterModel;
-import caixin.android.com.http.basic.exception.base.BaseException;
-import caixin.android.com.utils.MMKVUtil;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -48,6 +38,7 @@ public class FriendCommunityViewModel extends BaseViewModel<UserCenterModel> {
         public MutableLiveData<List<ActivityEntity>> getActivityList = new MutableLiveData<>();
         public MutableLiveData<Object> deleteCFComment = new MutableLiveData<>();
         public MutableLiveData<Object> addCollect = new MutableLiveData<>();
+        public MutableLiveData<OOSInfoEntity> getOOSInfo = new MutableLiveData<>();
         public MutableLiveData<FriendNewsEntity.CommentsBean> sendFCComment = new MutableLiveData<>();
     }
 
@@ -71,6 +62,29 @@ public class FriendCommunityViewModel extends BaseViewModel<UserCenterModel> {
             @Override
             public void onDisconnected(String msg) {
 
+            }
+        });
+    }
+
+
+    public void getOOSInfo() {
+        showDialog();
+        mModel.httpGetOOSInfo(this, new BaseModel.Callback<OOSInfoEntity>() {
+            @Override
+            public void onSuccess(OOSInfoEntity data, String mes) {
+                uc.getOOSInfo.postValue(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                dismissDialog();
+                showShortToast(msg);
+            }
+
+            @Override
+            public void onDisconnected(String msg) {
+                dismissDialog();
+                showShortToast(msg);
             }
         });
     }

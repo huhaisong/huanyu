@@ -247,7 +247,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="新用户？请注册"
-            android:textColor="#EE1010"
+            android:textColor="@color/color_333333"
             android:textSize="14sp" />
     </RelativeLayout>
 </layout>

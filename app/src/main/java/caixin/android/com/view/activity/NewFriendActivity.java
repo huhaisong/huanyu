@@ -1,24 +1,21 @@
 package caixin.android.com.view.activity;
 
+import static caixin.android.com.view.activity.AddFriendActivity.TAG_FRIEND;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.lifecycle.ViewModelProviders;
 
 import com.caixin.huanyu.R;
-import com.caixin.huanyu.databinding.ActivityAddFriendBinding;
 import com.caixin.huanyu.databinding.ActivityNewFriendBinding;
 
 import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
 import caixin.android.com.entity.FriendEntity;
 import caixin.android.com.utils.ImgLoader;
-import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.viewmodel.ContactViewModel;
-
-import static caixin.android.com.view.activity.AddFriendActivity.TAG_FRIEND;
 
 
 public class NewFriendActivity extends BaseActivity<ActivityNewFriendBinding, ContactViewModel> {
@@ -47,7 +44,6 @@ public class NewFriendActivity extends BaseActivity<ActivityNewFriendBinding, Co
         ImgLoader.GlideLoadCircle(mBinding.ivAvatar, friendEntity.getImg(), R.mipmap.img_user_head);
         mBinding.userNickname.setText(friendEntity.getNikeName());
         mBinding.tvUseAccount.setText(friendEntity.getMobile());
-        mBinding.tvFriendSignature.setText(friendEntity.getSignature());
         mBinding.tvAddAsFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

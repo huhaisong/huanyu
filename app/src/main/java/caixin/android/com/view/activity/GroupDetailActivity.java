@@ -1,5 +1,7 @@
 package caixin.android.com.view.activity;
 
+import static caixin.android.com.view.activity.ChatRoomActivity.TAG_IS_NO_TALK;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -15,10 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.ActivityGroupDetailBinding;
-import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
@@ -35,14 +33,11 @@ import caixin.android.com.base.BaseActivity;
 import caixin.android.com.daomanager.ConversationDaoManager;
 import caixin.android.com.daomanager.GroupDaoManager;
 import caixin.android.com.entity.MemberEntity;
-import caixin.android.com.utils.GlideEngine;
 import caixin.android.com.utils.ImgLoader;
 import caixin.android.com.utils.MMKVUtil;
 import caixin.android.com.viewmodel.ContactViewModel;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
-
-import static caixin.android.com.view.activity.ChatRoomActivity.TAG_IS_NO_TALK;
 
 
 public class GroupDetailActivity extends BaseActivity<ActivityGroupDetailBinding, ContactViewModel> {
@@ -184,7 +179,7 @@ public class GroupDetailActivity extends BaseActivity<ActivityGroupDetailBinding
         mBinding.rlGroupAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EasyPhotos.createAlbum(GroupDetailActivity.this, false, GlideEngine.getInstance())
+             /*   EasyPhotos.createAlbum(GroupDetailActivity.this, false, GlideEngine.getInstance())
                         .filter(Type.image())
                         .setGif(false)
                         .isCrop(true)
@@ -195,7 +190,7 @@ public class GroupDetailActivity extends BaseActivity<ActivityGroupDetailBinding
                             public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                                 new Thread(() -> zipPic(paths)).start();
                             }
-                        });
+                        });*/
             }
         });
         showDialog();

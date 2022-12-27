@@ -3,9 +3,6 @@ package caixin.android.com.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,13 +11,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
-import com.blankj.utilcode.util.ScreenUtils;
 import com.caixin.huanyu.R;
 
 import caixin.android.com.utils.DpUtil;
-import caixin.android.com.utils.ScreenDimenUtil;
 import caixin.android.com.view.activity.AddFriendActivity;
-import caixin.android.com.view.activity.CreateGroupActivity;
 import caixin.android.com.view.activity.ScanActivity;
 
 public class AddPopWindow extends PopupWindow implements PopupWindow.OnDismissListener {
