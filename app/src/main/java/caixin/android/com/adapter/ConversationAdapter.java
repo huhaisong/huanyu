@@ -17,11 +17,11 @@ import com.caixin.huanyu.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import caixin.android.com.entity.SendMessageResponse;
-import caixin.android.com.utils.ImgLoader;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import caixin.android.com.entity.SendMessageResponse;
+import caixin.android.com.utils.ImgLoader;
 
 
 public class ConversationAdapter extends BaseQuickAdapter<SendMessageResponse, BaseViewHolder> implements Filterable {
@@ -63,14 +63,20 @@ public class ConversationAdapter extends BaseQuickAdapter<SendMessageResponse, B
             }
         }
         switch (item.getPid()) {
-            case SendMessageResponse.PID_TYPE_MESSAGE:
+            case SendMessageResponse.TYPE_TEXT:
                 helper.setText(R.id.message, item.getNikeName() + "：" + item.getContents());
                 break;
-            case SendMessageResponse.PID_TYPE_PICTURE:
+            case SendMessageResponse.TYPE_IMAGE:
                 helper.setText(R.id.message, item.getNikeName() + "：" + "[图片]");
                 break;
-            case SendMessageResponse.PID_TYPE_REDPACK:
+            case SendMessageResponse.TYPE_RED_PACK:
                 helper.setText(R.id.message, item.getNikeName() + "：" + "[红包]");
+                break;
+            case SendMessageResponse.TYPE_VIDEO:
+                helper.setText(R.id.message, item.getNikeName() + "：" + "[视频]");
+                break;
+            case SendMessageResponse.TYPE_FILE:
+                helper.setText(R.id.message, item.getNikeName() + "：" + "[文件]");
                 break;
         }
         helper.setText(R.id.time, item.getUpdatetime());
@@ -93,15 +99,22 @@ public class ConversationAdapter extends BaseQuickAdapter<SendMessageResponse, B
                 helper.setText(R.id.unread_msg_number, String.valueOf(item.getUnread()));
             }
         }
+
         switch (item.getPid()) {
-            case SendMessageResponse.PID_TYPE_MESSAGE:
-                helper.setText(R.id.message, item.getContents());
+            case SendMessageResponse.TYPE_TEXT:
+                helper.setText(R.id.message,   item.getContents());
                 break;
-            case SendMessageResponse.PID_TYPE_PICTURE:
-                helper.setText(R.id.message, "[图片]");
+            case SendMessageResponse.TYPE_IMAGE:
+                helper.setText(R.id.message,  "[图片]");
                 break;
-            case SendMessageResponse.PID_TYPE_REDPACK:
-                helper.setText(R.id.message, "[恭喜发财，大吉大利]");
+            case SendMessageResponse.TYPE_RED_PACK:
+                helper.setText(R.id.message,  "[红包]");
+                break;
+            case SendMessageResponse.TYPE_VIDEO:
+                helper.setText(R.id.message,  "[视频]");
+                break;
+            case SendMessageResponse.TYPE_FILE:
+                helper.setText(R.id.message,   "[文件]");
                 break;
         }
         helper.setText(R.id.time, item.getUpdatetime());
@@ -123,7 +136,7 @@ public class ConversationAdapter extends BaseQuickAdapter<SendMessageResponse, B
     private void setUserAvatar(SendMessageResponse friendEntity, ImageView imageView) {
         if (friendEntity != null) {
             try {
-                ImgLoader.loadGif(imageView,friendEntity.getHeadImg());
+                ImgLoader.loadGif(imageView, friendEntity.getHeadImg());
 //                ImgLoader.GlideLoadRoundedCorners(friendEntity.getHeadImg(), imageView, R.mipmap.default_avatar);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -69,16 +69,18 @@ public class SendMessageResponse implements MultiItemEntity {
     private int replay_pid;
     private int replystatus;
     private String reply;
-    private String reply_data;
+    @Convert(columnType = String.class, converter = ReplayDataList_Converter.class)
+    private ReplayDataBean reply_data;
+    private int is_gl;
 
 
-    @Generated(hash = 1613474851)
+    @Generated(hash = 2068687738)
     public SendMessageResponse(Long id, ImgBean img, int sendId, int manager, String headImg, int getId,
             int groupId, String groupImage, int pbgid, int assignType, int pid, int uid, int totype,
             String groupName, String contents, String addtime, String togroups, int isread,
             String nikeName, String touids, String updatetime, String assignTo, boolean red_status,
             String tag, int messageId, int is_zl, int unread, int sort, int replay_pid, int replystatus,
-            String reply, String reply_data) {
+            String reply, ReplayDataBean reply_data, int is_gl) {
         this.id = id;
         this.img = img;
         this.sendId = sendId;
@@ -111,12 +113,21 @@ public class SendMessageResponse implements MultiItemEntity {
         this.replystatus = replystatus;
         this.reply = reply;
         this.reply_data = reply_data;
+        this.is_gl = is_gl;
     }
 
     @Generated(hash = 1719041837)
     public SendMessageResponse() {
     }
 
+
+    public int getIs_gl() {
+        return is_gl;
+    }
+
+    public void setIs_gl(int is_gl) {
+        this.is_gl = is_gl;
+    }
 
     public int getUnread() {
         return unread;
@@ -409,11 +420,11 @@ public class SendMessageResponse implements MultiItemEntity {
         this.reply = reply;
     }
 
-    public String getReply_data() {
+    public ReplayDataBean getReply_data() {
         return reply_data;
     }
 
-    public void setReply_data(String reply_data) {
+    public void setReply_data(ReplayDataBean reply_data) {
         this.reply_data = reply_data;
     }
 
@@ -473,6 +484,81 @@ public class SendMessageResponse implements MultiItemEntity {
         }
     }
 
+    public static class ReplayDataBean {
+        private int id;
+        private String contents;
+        private int pid;
+        private String imgurl;
+        private String thumbImgUrl;
+        private int width;
+        private int height;
+        private String addtime;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getContents() {
+            return contents;
+        }
+
+        public void setContents(String contents) {
+            this.contents = contents;
+        }
+
+        public int getPid() {
+            return pid;
+        }
+
+        public void setPid(int pid) {
+            this.pid = pid;
+        }
+
+        public String getImgurl() {
+            return imgurl;
+        }
+
+        public void setImgurl(String imgurl) {
+            this.imgurl = imgurl;
+        }
+
+        public String getThumbImgUrl() {
+            return thumbImgUrl;
+        }
+
+        public void setThumbImgUrl(String thumbImgUrl) {
+            this.thumbImgUrl = thumbImgUrl;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public String getAddtime() {
+            return addtime;
+        }
+
+        public void setAddtime(String addtime) {
+            this.addtime = addtime;
+        }
+    }
+
 
     public static class ImageList_Converter implements PropertyConverter<ImgBean, String> {
 
@@ -483,6 +569,20 @@ public class SendMessageResponse implements MultiItemEntity {
 
         @Override
         public String convertToDatabaseValue(ImgBean entityProperty) {
+            return new Gson().toJson(entityProperty);
+        }
+    }
+
+
+    public static class ReplayDataList_Converter implements PropertyConverter<ReplayDataBean, String> {
+
+        @Override
+        public ReplayDataBean convertToEntityProperty(String databaseValue) {
+            return new Gson().fromJson(databaseValue, ReplayDataBean.class);
+        }
+
+        @Override
+        public String convertToDatabaseValue(ReplayDataBean entityProperty) {
             return new Gson().toJson(entityProperty);
         }
     }

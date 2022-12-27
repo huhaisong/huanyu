@@ -1,15 +1,12 @@
 package caixin.android.com.daomanager;
 
-import android.util.Log;
+import java.util.List;
 
 import caixin.android.com.Application;
 import caixin.android.com.dao.DaoSession;
-import caixin.android.com.dao.FriendEntityDao;
 import caixin.android.com.dao.SendMessageResponseDao;
 import caixin.android.com.entity.FriendEntity;
 import caixin.android.com.entity.SendMessageResponse;
-
-import java.util.List;
 
 public class ConversationDaoManager {
     private static ConversationDaoManager INSTANCE;

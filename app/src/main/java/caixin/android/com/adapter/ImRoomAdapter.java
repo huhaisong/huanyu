@@ -53,6 +53,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
     private static final int TYPE_RED_PACK_RIGHT = 6;
     private static final int TYPE_VIDEO_LEFT = 7;
     private static final int TYPE_VIDEO_RIGHT = 8;
+    private static final int TYPE_FILE_LEFT = 9;
+    private static final int TYPE_FILE_RIGHT = 10;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -185,9 +187,9 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 }
             case SendMessageResponse.TYPE_FILE:
                 if (msg.isFromSelf()) {
-                    return TYPE_VIDEO_RIGHT;
+                    return TYPE_FILE_RIGHT;
                 } else {
-                    return TYPE_VIDEO_LEFT;
+                    return TYPE_FILE_LEFT;
                 }
         }
         return 0;
@@ -213,6 +215,10 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 return new VideoVh(mInflater.inflate(R.layout.item_chat_video_left, parent, false));
             case TYPE_VIDEO_RIGHT:
                 return new SelfVideoVh(mInflater.inflate(R.layout.item_chat_video_right, parent, false));
+            case TYPE_FILE_LEFT:
+                return new FileVh(mInflater.inflate(R.layout.item_chat_file_left, parent, false));
+            case TYPE_FILE_RIGHT:
+                return new SelfFileVh(mInflater.inflate(R.layout.item_chat_file_right, parent, false));
         }
         return null;
     }
@@ -504,6 +510,122 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
             }
         }
     }
+
+
+    class FileVh extends Vh {
+
+        TextView mText;
+        private List<String> popupMenuItemList = new ArrayList<>();
+
+        public FileVh(View itemView) {
+            super(itemView);
+            mText = itemView.findViewById(R.id.text);
+        }
+
+        @Override
+        public void setData(SendMessageResponse bean, int position, Object payload) {
+            super.setData(bean, position, payload);
+            if (bean.getTotype() == SendMessageResponse.TOTYPE_GROUP) {
+                popupMenuItemList.clear();
+                popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
+                popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                PopupList normalViewPopupList = new PopupList(mContext);
+                normalViewPopupList.bind(mText, popupMenuItemList, new PopupList.PopupListListener() {
+                    @Override
+                    public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onPopupListClick(View contextView, int contextPosition, int position) {
+                        Object tag = contextView.getTag();
+                        if (tag == null) {
+                            return;
+                        }
+                        int itemPosition = (int) tag;
+                        SendMessageResponse bean = mList.get(itemPosition);
+                        if (mActionListener != null) {
+                            if (position == 0) {
+                                mActionListener.onMessageDelete(bean);
+                            } else if (position == 1) {
+                                mActionListener.onMessageCollect(bean);
+                            }
+                        }
+                    }
+                });
+            }
+            mText.setTag(position);
+            if (payload == null) {
+                String text = bean.getContents();
+                text = Html.fromHtml(text).toString();
+//                Html.fromHtml(TextRender.renderChatMessage(text).toString());
+                mText.setText(TextRender.renderChatMessage(text));
+            }
+        }
+    }
+
+
+    class SelfFileVh extends Vh {
+
+        View mFailIcon;
+        View mLoading;
+        TextView mText;
+        private List<String> popupMenuItemList = new ArrayList<>();
+
+        public SelfFileVh(View itemView) {
+            super(itemView);
+            mFailIcon = itemView.findViewById(R.id.icon_fail);
+            mLoading = itemView.findViewById(R.id.loading);
+            mText = itemView.findViewById(R.id.text);
+
+        }
+
+        @Override
+        public void setData(SendMessageResponse bean, int position, Object payload) {
+            super.setData(bean, position, payload);
+            if (bean.getTotype() != 0) {
+                popupMenuItemList.clear();
+                popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
+                popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                PopupList normalViewPopupList = new PopupList(mContext);
+                normalViewPopupList.bind(mText, popupMenuItemList, new PopupList.PopupListListener() {
+                    @Override
+                    public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onPopupListClick(View contextView, int contextPosition, int position) {
+                        Object tag = contextView.getTag();
+                        if (tag == null) {
+                            return;
+                        }
+                        int itemPosition = (int) tag;
+                        SendMessageResponse bean = mList.get(itemPosition);
+                        if (mActionListener != null) {
+                            if (position == 0) {
+                                mActionListener.onMessageDelete(bean);
+                            } else if (position == 1) {
+                                mActionListener.onMessageCollect(bean);
+                            }
+                        }
+                    }
+                });
+            }
+            mText.setTag(position);
+            if (payload == null) {
+                String text = bean.getContents();
+                mText.setText(TextRender.renderChatMessage(text));
+            }
+            if (mLoading.getVisibility() == View.VISIBLE) {
+                mLoading.setVisibility(View.INVISIBLE);
+            }
+            if (mFailIcon.getVisibility() == View.VISIBLE) {
+                mFailIcon.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
 
     class ImageVh extends Vh {
         MyImageView mImg;
