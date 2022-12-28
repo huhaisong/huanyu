@@ -1,9 +1,5 @@
 package caixin.android.com.view.activity;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -18,11 +14,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.ActivityMainBinding;
 import com.kongzue.dialog.v3.CustomDialog;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import caixin.android.com.base.AppViewModelFactory;
+import caixin.android.com.base.BaseActivity;
 import caixin.android.com.constant.Extras;
 import caixin.android.com.daomanager.ConversationDaoManager;
 import caixin.android.com.entity.AppVersion;
@@ -31,26 +36,20 @@ import caixin.android.com.entity.FindItemModel;
 import caixin.android.com.entity.HomeImageAdModel;
 import caixin.android.com.entity.NoticePopRequest;
 import caixin.android.com.entity.PopModel;
+import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.entity.base.BaseWebSocketResponse;
+import caixin.android.com.http.WebSocketManager;
 import caixin.android.com.utils.AppUtil;
 import caixin.android.com.utils.DateUtil;
 import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.utils.WebUtils;
 import caixin.android.com.utils.runtimepermissions.PermissionsManager;
 import caixin.android.com.utils.runtimepermissions.PermissionsResultAction;
 import caixin.android.com.view.fragment.ContactFragment;
 import caixin.android.com.view.fragment.ConversationFragment;
 import caixin.android.com.view.fragment.MineFragment;
-import caixin.android.com.base.BaseActivity;
-import caixin.android.com.entity.SendMessageResponse;
-import caixin.android.com.http.WebSocketManager;
 import caixin.android.com.viewmodel.MainViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import caixin.android.com.widget.HomeAdDialog;
 import caixin.android.com.widget.HomeMenuPop;
 import caixin.android.com.widget.UpdateDialog;
@@ -293,7 +292,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         NormalItemView normalItemView = new NormalItemView(this);
         normalItemView.initialize(drawable, checkedDrawable, text);
         normalItemView.setTextDefaultColor(Color.GRAY);
-        normalItemView.setTextCheckedColor(getResources().getColor(R.color.color_ff5a41));
+        normalItemView.setTextCheckedColor(getResources().getColor(R.color.black));
         return normalItemView;
     }
 

@@ -73,31 +73,4 @@
             android:src="@mipmap/icon_play_ngl" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_alignTop="@id/img"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="5dp"
-        android:layout_toLeftOf="@id/img">
-
-        <ImageView
-            android:id="@+id/icon_fail"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_gravity="center"
-            android:src="@mipmap/icon_chat_msg_warn"
-            android:visibility="invisible" />
-
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="center"
-            android:indeterminateBehavior="repeat"
-            android:indeterminateDrawable="@drawable/anim_loading"
-            android:indeterminateOnly="true"
-            android:visibility="invisible" />
-
-    </FrameLayout>
 </RelativeLayout>
