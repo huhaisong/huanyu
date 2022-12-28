@@ -547,6 +547,14 @@ public class UserCenterModel extends BaseModel {
         requestWebSocket(Extras.REQUEST_ACTION_SEND_MESSAGE, sendMessageRequest, callback, null, false);
     }
 
+    public void sendMessageToFriend(int uid, int toUid, int replyId, String content, Callback callback) {
+        SendMessageRequest sendMessageRequest = new SendMessageRequest();
+        sendMessageRequest.setTouids(toUid + "");
+        sendMessageRequest.setContents(content);
+        sendMessageRequest.setReply(replyId);
+        requestWebSocket(Extras.REQUEST_ACTION_SEND_MESSAGE, sendMessageRequest, callback, null, false);
+    }
+
     public void sendRedPackToFriend(int uid, int touids, String content, double money, String payPass, Callback callback) {
         SendRedPackRequest sendMessageRequest = new SendRedPackRequest();
         sendMessageRequest.setUid(uid);

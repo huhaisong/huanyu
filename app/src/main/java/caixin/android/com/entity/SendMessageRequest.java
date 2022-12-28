@@ -8,11 +8,20 @@ public class SendMessageRequest extends BaseWebSocketItemRequest {
     String contents;
     int assignType;
     String assignTo;
+    int reply;
 
     //0 不是@ 1 @单人多人 2 @所有人
     public static final int TYPE_ASSIGN_ALONE = 1;
     public static final int TYPE_ASSIGN_NONE = 0;
     public static final int TYPE_ASSIGN_ALL = 2;
+
+    public int getReply() {
+        return reply;
+    }
+
+    public void setReply(int reply) {
+        this.reply = reply;
+    }
 
     public int getAssignType() {
         return assignType;

@@ -203,6 +203,37 @@
                 </RelativeLayout>
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+            <RelativeLayout
+                android:id="@+id/rl_reply"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_gray_40_radius_4"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_reply_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="33333"
+                    android:layout_toLeftOf="@+id/iv_reply_close"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/iv_reply_close"
+                    android:layout_centerVertical="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@mipmap/close_02" />
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/ll_chat_input"
                 android:layout_width="match_parent"
@@ -272,11 +303,11 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/bg_text"
                     android:paddingLeft="@dimen/dp_10"
-                    android:textColor="@color/white"
                     android:paddingTop="5dp"
                     android:paddingRight="@dimen/dp_10"
                     android:paddingBottom="5dp"
-                    android:text="@string/send" />
+                    android:text="@string/send"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout

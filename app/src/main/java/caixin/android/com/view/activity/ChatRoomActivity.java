@@ -202,7 +202,11 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                     return true;
                 }
                 if (mType == TYPE_FRIEND) {
-                    mViewModel.sendMessageToFriend(content, friendId);
+                    if (replySendMessageResponse != null) {
+                        mViewModel.sendMessageToFriend(content, friendId, replySendMessageResponse.getMessageId());
+                    } else {
+                        mViewModel.sendMessageToFriend(content, friendId);
+                    }
                 } else if (mType == TYPE_GROUP) {
                     mViewModel.sendMessageToGroup(content, groupId, mBinding.edit.getUserIdString());
                 }
@@ -286,7 +290,11 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                 return;
             }
             if (mType == TYPE_FRIEND) {
-                mViewModel.sendMessageToFriend(content, friendId);
+                if (replySendMessageResponse != null) {
+                    mViewModel.sendMessageToFriend(content, friendId, replySendMessageResponse.getMessageId());
+                } else {
+                    mViewModel.sendMessageToFriend(content, friendId);
+                }
             } else if (mType == TYPE_GROUP) {
                 mViewModel.sendMessageToGroup(content, groupId, mBinding.edit.getUserIdString());
             }
@@ -486,7 +494,11 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                     return;
                 }
                 if (mType == TYPE_FRIEND) {
-                    mViewModel.sendMessageToFriend(content, friendId);
+                    if (replySendMessageResponse != null) {
+                        mViewModel.sendMessageToFriend(content, friendId, replySendMessageResponse.getMessageId());
+                    } else {
+                        mViewModel.sendMessageToFriend(content, friendId);
+                    }
                 } else if (mType == TYPE_GROUP) {
                     mViewModel.sendMessageToGroup(content, groupId, mBinding.edit.getUserIdString());
                 }
@@ -1081,6 +1093,32 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
     }
 
 
+    private SendMessageResponse replySendMessageResponse;
+
+    @Override
+    public void onReplyClick(SendMessageResponse bean) {
+        showSoftInput();
+        mBinding.rlReply.setVisibility(View.VISIBLE);
+        replySendMessageResponse = bean;
+        if (bean.getPid() == 1) {
+            mBinding.tvReplyContent.setText(bean.getNikeName() + "：" + bean.getContents());
+        } else if (bean.getPid() == 3) {
+            mBinding.tvReplyContent.setText(bean.getNikeName() + "：" + "【图片】");
+        } else if (bean.getPid() == 5) {
+            mBinding.tvReplyContent.setText(bean.getNikeName() + "：" + "【文件】");
+        } else if (bean.getPid() == 4) {
+            mBinding.tvReplyContent.setText(bean.getNikeName() + "：" + "【视频】");
+        }
+        mBinding.ivReplyClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBinding.rlReply.setVisibility(View.GONE);
+                replySendMessageResponse = null;
+            }
+        });
+    }
+
+
     public void onPopupWindowChanged(int height) {
         onKeyBoardChanged(height);
         Log.e(TAG, "onPopupWindowChanged: ");
@@ -1273,6 +1311,8 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
         if (o == null) {
             return;
         }
+        mBinding.rlReply.setVisibility(View.GONE);
+        replySendMessageResponse = null;
         List<SendMessageResponse> userResponseList = JSONObject.parseArray(o.toString(), SendMessageResponse.class);
         SendMessageResponse sendMessageResponse = userResponseList.get(0);
         if (!isRelatedCurrentAccount(sendMessageResponse))

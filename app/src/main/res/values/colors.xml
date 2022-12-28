@@ -120,6 +120,7 @@
     <color name="lightskyblue">#87CEFA</color><!--亮天蓝色 -->
     <color name="skyblue">#87CEEB</color><!--天蓝色 -->
     <color name="gray">#BEC0BFBF</color><!--灰色 -->
+    <color name="gray_40">#CACACA</color><!--灰色 -->
     <color name="olive">#808000</color><!--橄榄色 -->
     <color name="purple">#7625D2</color><!--紫色 -->
     <color name="purple_gray">#A8853CD3</color><!--紫色 -->
@@ -281,5 +282,6 @@
     <color name="color_fa6f6f">#fa6f6f</color>
     <color name="color_d8d8d8">#d8d8d8</color>
     <color name="color_949494">#949494</color>
-    <color name="color_f8f8f8">#f8f8f8</color>//#ffffff
+    <color name="color_f8f8f8">#f8f8f8</color>
+    <color name="color_666666">#666666</color>//#ffffff
 </resources>

@@ -381,6 +381,26 @@ public class ChatViewModel extends BaseViewModel<UserCenterModel> {
         });
     }
 
+    public void sendMessageToFriend(String content, int toUid, int replyId) {
+        mModel.sendMessageToFriend(MMKVUtil.getUserInfo().getId(), toUid, replyId,content, new BaseModel.Callback() {
+            @Override
+            public void onSuccess(Object data, String mes) {
+                uc.sendMessage.postValue(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                showShortToast(msg);
+            }
+
+            @Override
+            public void onDisconnected(String msg) {
+                dismissDialog();
+                showShortToast(msg);
+            }
+        });
+    }
+
     public void sendMessageToGroup(String content, int toGroupId, List<Integer> assignTos) {
         int type;
         List<Integer> userIds = assignTos;

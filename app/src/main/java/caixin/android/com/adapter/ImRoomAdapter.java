@@ -420,11 +420,12 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         @Override
         public void setData(SendMessageResponse bean, int position, Object payload) {
             super.setData(bean, position, payload);
-            if (bean.getTotype() == SendMessageResponse.TOTYPE_GROUP) {
+            if (bean.getTotype() != 0) {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_copy));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mText, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -447,6 +448,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageCopy(bean);
                             } else if (position == 2) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 3) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -519,7 +522,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class SelfTextVh extends Vh {
+    class SelfTextVh extends TextVh {
 
         View mFailIcon;
         View mLoading;
@@ -542,6 +545,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_copy));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mText, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -564,6 +568,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageCopy(bean);
                             } else if (position == 2) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 3) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -597,10 +603,11 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         @Override
         public void setData(SendMessageResponse bean, int position, Object payload) {
             super.setData(bean, position, payload);
-            if (bean.getTotype() == SendMessageResponse.TOTYPE_GROUP) {
+            if (bean.getTotype() != 0) {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mText, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -621,6 +628,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageDelete(bean);
                             } else if (position == 1) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 2) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -637,7 +646,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
     }
 
 
-    class SelfFileVh extends Vh {
+    class SelfFileVh extends FileVh {
 
         View mFailIcon;
         View mLoading;
@@ -659,6 +668,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mText, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -679,6 +689,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageDelete(bean);
                             } else if (position == 1) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 2) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -731,10 +743,11 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                     imageLayoutParams.height = (int) height;
                     mImg.setLayoutParams(imageLayoutParams);
                 }
-            if (bean.getTotype() == SendMessageResponse.TOTYPE_GROUP) {
+            if (bean.getTotype() != 0) {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mImg, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -752,6 +765,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageDelete(bean);
                             } else if (position == 1) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 2) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -797,10 +812,11 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                     imageLayoutParams.height = (int) height;
                     mImg.setLayoutParams(imageLayoutParams);
                 }
-            if (bean.getTotype() == SendMessageResponse.TOTYPE_GROUP) {
+            if (bean.getTotype() != 0) {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mImg, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -818,6 +834,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageDelete(bean);
                             } else if (position == 1) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 2) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -865,6 +883,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mImg, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -882,6 +901,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageDelete(bean);
                             } else if (position == 1) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 2) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -908,6 +929,7 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 popupMenuItemList.clear();
                 popupMenuItemList.add(Application.getInstance().getString(R.string.message_text_delete));
                 popupMenuItemList.add(Application.getInstance().getString(R.string.collect));
+                popupMenuItemList.add("回复");
                 PopupList normalViewPopupList = new PopupList(mContext);
                 normalViewPopupList.bind(mImg, popupMenuItemList, new PopupList.PopupListListener() {
                     @Override
@@ -925,6 +947,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                                 mActionListener.onMessageDelete(bean);
                             } else if (position == 1) {
                                 mActionListener.onMessageCollect(bean);
+                            } else if (position == 2) {
+                                mActionListener.onReplyClick(bean);
                             }
                         }
                     }
@@ -981,6 +1005,8 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
         void onAvatarClick(SendMessageResponse bean);
 
         void onVideoClick(SendMessageResponse bean);
+
+        void onReplyClick(SendMessageResponse bean);
 
     }
 
