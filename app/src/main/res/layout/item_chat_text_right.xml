@@ -120,6 +120,7 @@
         android:layout_below="@+id/bubble"
         android:layout_alignRight="@+id/bubble"
         android:layout_marginTop="3dp"
+        android:layout_marginLeft="44dp"
         android:layout_marginRight="5dp"
         android:background="@drawable/shape_999999_radius_6"
         android:minHeight="40dp"

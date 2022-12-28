@@ -77,6 +77,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_reply"
+        android:layout_marginRight="75dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bubble"
