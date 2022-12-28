@@ -51,6 +51,7 @@ import caixin.android.com.entity.SendMessageResponse;
 import caixin.android.com.entity.SendRedPackMoneyCountLimitResponse;
 import caixin.android.com.entity.TMZSModel2;
 import caixin.android.com.entity.UserInfoEntity;
+import caixin.android.com.entity.ZhuanPanStatusEntity;
 import caixin.android.com.entity.base.BaseResponse;
 import caixin.android.com.entity.base.VerificationImgBaseResponse;
 import caixin.android.com.entity.chatroom.RedPackInformationResponse;
@@ -244,6 +245,10 @@ public interface UserCenterService {
 
     @POST("/index/platform/platformList")
     Observable<BaseResponse<MyPlatformEntity>> getPlatforms(@Query("token") String token);
+
+
+    @POST("/api/em/zhuanpan")
+    Observable<BaseResponse<ZhuanPanStatusEntity>> getZhuanpanState(@Query("token") String token);
 
 
     @POST("/api/user/getSign")

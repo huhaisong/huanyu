@@ -1,20 +1,19 @@
 package caixin.android.com.view.fragment;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Browser;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.caixin.huanyu.R;
@@ -22,26 +21,24 @@ import com.caixin.huanyu.databinding.FragmentConversationBinding;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
-import caixin.android.com.base.AppViewModelFactory;
-import caixin.android.com.daomanager.ConversationDaoManager;
-import caixin.android.com.entity.MyPlatformEntity;
-import caixin.android.com.utils.DpUtil;
-import caixin.android.com.utils.ScreenDimenUtil;
-import caixin.android.com.view.activity.WebContainerActivity;
-import caixin.android.com.viewmodel.ConversationViewModel;
-import caixin.android.com.adapter.ConversationAdapter;
-import caixin.android.com.base.BaseFragment;
-import caixin.android.com.entity.SendMessageResponse;
-import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.view.activity.ChatRoomActivity;
-import caixin.android.com.view.activity.MainActivity;
-import caixin.android.com.widget.AddPopWindow;
-import caixin.android.com.widget.GamItemTouchCallback;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import caixin.android.com.adapter.ConversationAdapter;
+import caixin.android.com.base.AppViewModelFactory;
+import caixin.android.com.base.BaseFragment;
+import caixin.android.com.daomanager.ConversationDaoManager;
+import caixin.android.com.entity.SendMessageResponse;
+import caixin.android.com.entity.ZhuanPanStatusEntity;
+import caixin.android.com.utils.MMKVUtil;
+import caixin.android.com.utils.ToastUtils;
+import caixin.android.com.view.activity.ChatRoomActivity;
+import caixin.android.com.view.activity.MainActivity;
+import caixin.android.com.viewmodel.ConversationViewModel;
+import caixin.android.com.widget.AddPopWindow;
+import caixin.android.com.widget.HomeAdView;
 
 
 public class ConversationFragment extends BaseFragment<FragmentConversationBinding, ConversationViewModel> {
@@ -94,6 +91,8 @@ public class ConversationFragment extends BaseFragment<FragmentConversationBindi
             popWindow.showPopupWindow(mBinding.ivAddMore);
         });
         showDialog("");
+
+        mViewModel.getZhuanpanState();
     }
 
     private long oldTime;
@@ -163,6 +162,44 @@ public class ConversationFragment extends BaseFragment<FragmentConversationBindi
     public void initViewObservable() {
         mViewModel.uc.init.observe(this, this::handleInit);
         mViewModel.uc.deleteConversation.observe(this, this::handleDeleteConversation);
+        mViewModel.uc.zhuanPanStatusEntityMutableLiveData.observe(this, this::handleZhuanPan);
+    }
+
+    private void handleZhuanPan(ZhuanPanStatusEntity zhuanPanStatusEntity) {
+        if (zhuanPanStatusEntity.getStatus().equals("1")) {
+            mBinding.homeAd.setVisibility(View.VISIBLE);
+            mBinding.homeAd.setADListener(new HomeAdView.MyClick() {
+                @Override
+                public void onClick() {
+                    openBrose(getContext(), zhuanPanStatusEntity.getUrl());
+                }
+            });
+        } else {
+            mBinding.homeAd.setVisibility(View.GONE);
+
+        }
+    }
+
+    private void openBrose(Context context, String url) {
+
+        try {
+            Uri content_url = null;
+            if (null == url) {
+                ToastUtils.show("网址错误！");
+                return;
+            } else {
+                content_url = Uri.parse(url);
+            }
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+            browserIntent.setData(content_url);
+            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(browserIntent);
+            startActivity(browserIntent);
+        } catch (ActivityNotFoundException a) {
+            a.getMessage();
+        }
+
     }
 
     private void handleDeleteConversation(Object o) {

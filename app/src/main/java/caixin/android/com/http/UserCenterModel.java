@@ -48,6 +48,7 @@ import caixin.android.com.entity.SendRedPackRequest;
 import caixin.android.com.entity.SendVideoRequest;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.entity.UserRequest;
+import caixin.android.com.entity.ZhuanPanStatusEntity;
 import caixin.android.com.entity.base.BaseWebSocketItemRequest;
 import caixin.android.com.entity.base.VerificationImgBaseResponse;
 import caixin.android.com.entity.chatroom.RedPackInformationResponse;
@@ -467,6 +468,10 @@ public class UserCenterModel extends BaseModel {
 
     public void getPlatforms(BaseViewModel baseViewModel, int uid, Callback<MyPlatformEntity> callback) {
         execute(getService(UserCenterService.class).getPlatforms(MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
+    }
+
+    public void getZhuanpanState(BaseViewModel baseViewModel,  Callback<ZhuanPanStatusEntity> callback) {
+        execute(getService(UserCenterService.class).getZhuanpanState(MMKVUtil.getUserInfo().getToken()), callback, baseViewModel);
     }
 
     public void getUserInfo(int uid, final Callback callback) {

@@ -70,17 +70,12 @@
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </LinearLayout>
 
-
-        <ImageView
-            android:id="@+id/iv_guanggao"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <caixin.android.com.widget.HomeAdView
+            android:id="@+id/home_ad"
+            android:layout_width="70dp"
+            android:layout_height="68dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="150dp"
-            android:background="@mipmap/ic_home_online_service"
-            android:visibility="gone" />
+            android:layout_marginTop="170dp" />
 
     </RelativeLayout>
 
