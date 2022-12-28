@@ -75,6 +75,7 @@ public class OssService {
         final long upload_start = System.currentTimeMillis();
         OSSLog.logDebug("upload start");
 
+        final BaseModel.Callback[] finialCallback = {callback};
         if (object.equals("")) {
             Log.w("AsyncPutImage", "ObjectNull");
             return;
@@ -109,7 +110,10 @@ public class OssService {
                 Log.e("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
                 int progress = (int) (100 * currentSize / totalSize);
                 if (progress == 100) {
-                    callback.onSuccess(null, "");
+                    if (finialCallback[0] != null) {
+                        finialCallback[0].onSuccess(null, "");
+                        finialCallback[0] = null;
+                    }
                 }
             }
         });

@@ -1,21 +1,17 @@
 package caixin.android.com.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CompoundButton;
 
 import androidx.lifecycle.ViewModelProviders;
 
 import com.caixin.huanyu.R;
 import com.caixin.huanyu.databinding.ActivityNormalSettingBinding;
-import com.caixin.huanyu.databinding.ActivitySecuritySettingsBinding;
 
 import caixin.android.com.base.AppViewModelFactory;
 import caixin.android.com.base.BaseActivity;
 import caixin.android.com.entity.UserInfoEntity;
-import caixin.android.com.http.basic.config.HttpConfig;
 import caixin.android.com.utils.MMKVUtil;
-import caixin.android.com.utils.StatusBarUtils;
 import caixin.android.com.viewmodel.UserInfoViewModel;
 
 public class NormalSettingsActivity extends BaseActivity<ActivityNormalSettingBinding, UserInfoViewModel> {
@@ -38,7 +34,6 @@ public class NormalSettingsActivity extends BaseActivity<ActivityNormalSettingBi
     public void initData(Bundle savedInstanceState) {
         mBinding.titleBar.title.setText(getResources().getString(R.string.normal_setting));
         mBinding.titleBar.ivClose.setOnClickListener(v -> onBackPressed());
-        mBinding.tvIpAddress.setText(HttpConfig.HOST);
         if (MMKVUtil.getUserInfo().getRemind() == 1) {  //1代表开启，2代表关闭
             mBinding.voiceSwitch.setChecked(true);
             remind = 1;
@@ -58,17 +53,11 @@ public class NormalSettingsActivity extends BaseActivity<ActivityNormalSettingBi
                 }
             }
         });
-        mBinding.rlPicChannel.setOnClickListener(v -> startActivity(PicChannelSelectActivity.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (MMKVUtil.getSelectedPicChannel() == 0) {
-            mBinding.tvPicChannal.setText("默认线路");
-        } else {
-            mBinding.tvPicChannal.setText("图片线路" + MMKVUtil.getSelectedPicChannel());
-        }
     }
 
 
