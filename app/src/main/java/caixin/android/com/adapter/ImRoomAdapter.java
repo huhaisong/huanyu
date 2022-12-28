@@ -388,10 +388,10 @@ public class ImRoomAdapter extends RecyclerView.Adapter {
                 nickName.setTextColor(mContext.getResources().getColor(R.color.nickName));
             }
             if (bean.isFromSelf()) {
-                ImgLoader.GlideLoad(mAvatar, bean.getHeadImg(), R.mipmap.img_user_head);
+                ImgLoader.loadGif(mAvatar, bean.getHeadImg());
                 nickName.setText(Application.getInstance().getString(R.string.me));
             } else {
-                ImgLoader.GlideLoad(mAvatar, bean.getHeadImg(), R.mipmap.img_user_head);
+                ImgLoader.loadGif(mAvatar, bean.getHeadImg());
                 nickName.setText(bean.getNikeName());
                 if (!TextUtils.isEmpty(bean.getTag())) {
                     nickName.setText(bean.getTag());

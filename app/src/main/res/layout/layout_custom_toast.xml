@@ -22,7 +22,7 @@
         android:layout_marginRight="5dp"
         android:layout_toEndOf="@id/toast_icon"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:textSize="14sp"
         tools:ignore="ObsoleteLayoutParam" />
 

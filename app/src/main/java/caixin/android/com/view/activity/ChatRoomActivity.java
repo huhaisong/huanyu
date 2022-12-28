@@ -127,6 +127,7 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
     private int groupId;
     private int friendId;
     private String otherHeadImage;
+    private boolean isgl;
 
     public static ChatRoomActivity getInstance() {
         return INSTANCE;
@@ -828,6 +829,11 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
         mMoreViewHeight = DpUtil.dp2px(200);
         v.findViewById(R.id.btn_img).setOnClickListener(this);
         v.findViewById(R.id.btn_camera).setOnClickListener(this);
+        if (MMKVUtil.getUserInfo().getIs_gl() == 1 || isgl) {
+            v.findViewById(R.id.btn_camera).setVisibility(View.VISIBLE);
+        } else {
+            v.findViewById(R.id.btn_camera).setVisibility(View.GONE);
+        }
 //        v.findViewById(R.id.btn_red_pack).setOnClickListener(this);
 //        v.findViewById(R.id.btn_ziliao).setOnClickListener(this);
         v.findViewById(R.id.btn_exclusive_red_pack).setOnClickListener(this);
@@ -1405,6 +1411,12 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
         if (isFirstGetMessage) {
             isFirstGetMessage = false;
             mAdapter.setList(o);
+            for (int i = 0; i < o.size(); i++) {
+                if (o.get(i).getIs_gl() == 1) {
+                    isgl = true;
+                    break;
+                }
+            }
         } else {
             mAdapter.addList(o);
         }

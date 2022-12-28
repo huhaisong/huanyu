@@ -12,9 +12,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.caixin.huanyu.R;
 
-import caixin.android.com.Application;
-
 import java.io.File;
+
+import caixin.android.com.Application;
 
 
 /**
@@ -125,7 +125,7 @@ public class ImgLoader {
                     .apply(options)
                     .into(imageview);
         }else {
-            GlideLoadRoundedCorners(url,imageview, R.mipmap.default_avatar);
+            GlideLoadCircle(imageview, url,R.mipmap.default_avatar);
         }
 
     }
