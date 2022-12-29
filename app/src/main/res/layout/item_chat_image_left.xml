@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/time">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -49,8 +49,7 @@
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:scaleType="centerCrop"
-            app:riv_oval="true" />
+           />
     </FrameLayout>
 
     <caixin.android.com.widget.MyImageView

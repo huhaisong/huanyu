@@ -14,7 +14,7 @@
         android:layout_below="@id/time"
         android:layout_alignParentRight="true">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -22,9 +22,7 @@
             android:layout_marginRight="15dp"
             android:clickable="false"
             android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:scaleType="centerCrop"
-            app:riv_oval="true" />
+            android:focusableInTouchMode="false" />
     </FrameLayout>
 
     <TextView
