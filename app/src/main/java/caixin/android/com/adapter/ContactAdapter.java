@@ -5,27 +5,22 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.caixin.huanyu.R;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.downtail.plus.extensions.FloaterExtension;
 
-import caixin.android.com.entity.FriendEntity;
-import caixin.android.com.utils.ImgLoader;
-import caixin.android.com.utils.ViewSetUtil;
-import caixin.android.com.widget.MyImageView;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import caixin.android.com.entity.FriendEntity;
+import caixin.android.com.utils.ViewSetUtil;
+import caixin.android.com.widget.MyImageView;
 
 
 public class ContactAdapter extends BaseMultiItemQuickAdapter<FriendEntity, BaseViewHolder> implements FloaterExtension, Filterable {
@@ -52,6 +47,11 @@ public class ContactAdapter extends BaseMultiItemQuickAdapter<FriendEntity, Base
                 TextView nameTextView = helper.getView(R.id.name);
                 ViewSetUtil.setUserNick(item, nameTextView);
                 ViewSetUtil.setUserAvatar(item, avatar);
+                if (item.getId() == 1) {
+                    helper.setVisible(R.id.iv_guanfang, true);
+                } else {
+                    helper.setVisible(R.id.iv_guanfang, false);
+                }
                 break;
         }
     }

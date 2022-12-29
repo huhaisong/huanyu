@@ -85,11 +85,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             return;
         }
 
-        if (!mBinding.checkbox.isChecked()) {
-            ToastUtils.show("请仔细阅读用户协议条款并勾选");
-            return;
-        }
-
         mViewModel.httpLogin(currentUsername, currentPassword);
     }
 

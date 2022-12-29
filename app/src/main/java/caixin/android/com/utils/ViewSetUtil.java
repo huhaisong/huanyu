@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -20,12 +19,13 @@ public class ViewSetUtil {
             if (friendEntity == null)
                 return;
             textView.setText(friendEntity.getNikeName());
-            if (!android.text.TextUtils.isEmpty(friendEntity.getNikeName())) {
-                textView.setText(friendEntity.getNikeName());
-            }
             if (!TextUtils.isEmpty(friendEntity.getTag())) {
                 textView.setText(friendEntity.getTag());
             }
+            if (!android.text.TextUtils.isEmpty(friendEntity.getNikeName())) {
+                textView.setText(friendEntity.getNikeName());
+            }
+
         }
     }
 

@@ -18,6 +18,12 @@
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="DialogBaseTheme" parent="@android:style/Theme.Dialog" />
 
     <style name="DialogTheme" parent="DialogBaseTheme">

@@ -8,13 +8,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import caixin.android.com.base.BaseModel;
 import caixin.android.com.base.BaseViewModel;
-import caixin.android.com.entity.CaptchaCheckIt;
 import caixin.android.com.entity.CaptchaGetIt;
 import caixin.android.com.entity.UserInfoEntity;
 import caixin.android.com.entity.base.VerificationImgBaseResponse;
 import caixin.android.com.http.UserCenterModel;
 import caixin.android.com.http.WebSocketManager;
-import caixin.android.com.utils.DeviceStateUtil;
 import caixin.android.com.utils.MMKVUtil;
 import cn.jpush.android.api.JPushInterface;
 

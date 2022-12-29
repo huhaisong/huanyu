@@ -39,12 +39,13 @@
             android:layout_toLeftOf="@+id/unread_msg_number"
             android:layout_toRightOf="@id/avatar"
             android:gravity="center_vertical"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical" >
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/name"
@@ -55,14 +56,24 @@
                     android:singleLine="true"
                     android:textColor="#8C8C8C"
                     android:textSize="16sp" />
-            </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_guanfang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/name"
+                    android:layout_alignBottom="@+id/name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/name"
+                    android:src="@mipmap/icon_guanfang" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/signature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginRight="4dp"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#888888"

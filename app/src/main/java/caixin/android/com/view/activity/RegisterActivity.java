@@ -86,11 +86,6 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
                 return;
             }
 
-            if (!mBinding.checkbox.isChecked()) {
-                ToastUtils.show("请仔细阅读用户协议条款并勾选");
-                return;
-            }
-
             mViewModel.register(currentUsername,
                     "",
                     currentPassword,

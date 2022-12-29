@@ -102,34 +102,41 @@ public class ConversationAdapter extends BaseQuickAdapter<SendMessageResponse, B
 
         switch (item.getPid()) {
             case SendMessageResponse.TYPE_TEXT:
-                helper.setText(R.id.message,   item.getContents());
+                helper.setText(R.id.message, item.getContents());
                 break;
             case SendMessageResponse.TYPE_IMAGE:
-                helper.setText(R.id.message,  "[图片]");
+                helper.setText(R.id.message, "[图片]");
                 break;
             case SendMessageResponse.TYPE_RED_PACK:
-                helper.setText(R.id.message,  "[红包]");
+                helper.setText(R.id.message, "[红包]");
                 break;
             case SendMessageResponse.TYPE_VIDEO:
-                helper.setText(R.id.message,  "[视频]");
+                helper.setText(R.id.message, "[视频]");
                 break;
             case SendMessageResponse.TYPE_FILE:
-                helper.setText(R.id.message,   "[文件]");
+                helper.setText(R.id.message, "[文件]");
                 break;
         }
         helper.setText(R.id.time, item.getUpdatetime());
+
+        if (item.getUid() == 1 || item.getGetId() == 1) {
+            helper.setVisible(R.id.iv_guanfang, true);
+        } else {
+            helper.setVisible(R.id.iv_guanfang, false);
+        }
     }
 
     private void setUserNick(SendMessageResponse friendEntity, TextView textView) {
         if (textView != null) {
             if (friendEntity == null)
                 return;
-            if (!TextUtils.isEmpty(friendEntity.getNikeName())) {
-                textView.setText(friendEntity.getNikeName());
-            }
             if (!TextUtils.isEmpty(friendEntity.getTag())) {
                 textView.setText(friendEntity.getTag());
             }
+            if (!TextUtils.isEmpty(friendEntity.getNikeName())) {
+                textView.setText(friendEntity.getNikeName());
+            }
+
         }
     }
 
