@@ -520,9 +520,16 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                     return;
                 }
                 isZiliao = false;
-                choosePicture();
+                openAlbum(false);
                 break;
             case R.id.btn_camera:
+                if (ActionUtil.isLogin()) {
+                    ToastUtils.showShort("请先登录!");
+                    return;
+                }
+                openAlbum(true);
+                break;
+            case R.id.btn_camera_1:
                 if (ActionUtil.isLogin()) {
                     ToastUtils.showShort("请先登录!");
                     return;
@@ -533,7 +540,6 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
     }
 
     private void choosePicture() {
-        openAlbum();
      /*   EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                 .filter(Type.image())
                 .setGif(false)
@@ -547,7 +553,7 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                 });*/
     }
 
-    private void openAlbum() {
+    private void openAlbum(boolean isOpenCamera) {
         localMedia = null;
         PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
@@ -564,7 +570,7 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
                 .isDisplayOriginalSize(true)// 是否显示原文件大小，isOriginalImageControl true有效
                 .selectionMode(PictureConfig.SINGLE)// 多选 or 单选
                 .isPreviewImage(false)// 是否可预览图片
-                .isCamera(true)// 是否显示拍照按钮
+                .isCamera(isOpenCamera)// 是否显示拍照按钮
                 .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
                 .setCameraImageFormat(PictureMimeType.PNG) // 相机图片格式后缀,默认.jpeg
 //                .setCameraAudioFormat(PictureMimeType.AMR)// 录音音频格式后缀,默认.amr
@@ -829,10 +835,11 @@ public class ChatRoomActivity extends BaseActivity<ActivityChatRoomBinding, Chat
         mMoreViewHeight = DpUtil.dp2px(200);
         v.findViewById(R.id.btn_img).setOnClickListener(this);
         v.findViewById(R.id.btn_camera).setOnClickListener(this);
+        v.findViewById(R.id.btn_camera_1).setOnClickListener(this);
         if (MMKVUtil.getUserInfo().getIs_gl() == 1 || isgl) {
-            v.findViewById(R.id.btn_camera).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.btn_camera_1).setVisibility(View.VISIBLE);
         } else {
-            v.findViewById(R.id.btn_camera).setVisibility(View.GONE);
+            v.findViewById(R.id.btn_camera_1).setVisibility(View.GONE);
         }
 //        v.findViewById(R.id.btn_red_pack).setOnClickListener(this);
 //        v.findViewById(R.id.btn_ziliao).setOnClickListener(this);
