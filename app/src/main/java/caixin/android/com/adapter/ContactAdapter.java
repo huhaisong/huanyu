@@ -47,7 +47,7 @@ public class ContactAdapter extends BaseMultiItemQuickAdapter<FriendEntity, Base
                 TextView nameTextView = helper.getView(R.id.name);
                 ViewSetUtil.setUserNick(item, nameTextView);
                 ViewSetUtil.setUserAvatar(item, avatar);
-                if (item.getId() == 1) {
+                if (item.getIs_gf() == 1) {
                     helper.setVisible(R.id.iv_guanfang, true);
                 } else {
                     helper.setVisible(R.id.iv_guanfang, false);

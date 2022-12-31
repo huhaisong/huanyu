@@ -119,7 +119,7 @@ public class ConversationAdapter extends BaseQuickAdapter<SendMessageResponse, B
         }
         helper.setText(R.id.time, item.getUpdatetime());
 
-        if (item.getUid() == 1 || item.getGetId() == 1) {
+        if (item.getIs_gf() == 1) {
             helper.setVisible(R.id.iv_guanfang, true);
         } else {
             helper.setVisible(R.id.iv_guanfang, false);

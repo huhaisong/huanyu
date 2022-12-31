@@ -3,10 +3,10 @@ package caixin.android.com.entity;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class FriendEntity implements MultiItemEntity, Serializable {
@@ -78,13 +78,14 @@ public class FriendEntity implements MultiItemEntity, Serializable {
 
     private String signature;
 
+    private int is_gf;
 
-    @Generated(hash = 235402284)
+    @Generated(hash = 1401695081)
     public FriendEntity(long id, String img, int is_gl, String lastacttime,
             String nikeName, int status, int tzstatus, int layout_type,
             String letter, String tag, boolean isSelected, boolean isJoined,
             String mobile, String session_id, int remind, int totype, int isBlack,
-            String signature) {
+            String signature, int is_gf) {
         this.id = id;
         this.img = img;
         this.is_gl = is_gl;
@@ -103,12 +104,20 @@ public class FriendEntity implements MultiItemEntity, Serializable {
         this.totype = totype;
         this.isBlack = isBlack;
         this.signature = signature;
+        this.is_gf = is_gf;
     }
 
     @Generated(hash = 834006476)
     public FriendEntity() {
     }
 
+    public int getIs_gf() {
+        return is_gf;
+    }
+
+    public void setIs_gf(int is_gf) {
+        this.is_gf = is_gf;
+    }
 
     public boolean isJoined() {
         return isJoined;

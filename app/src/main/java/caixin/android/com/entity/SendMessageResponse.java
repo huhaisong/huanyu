@@ -72,15 +72,16 @@ public class SendMessageResponse implements MultiItemEntity {
     @Convert(columnType = String.class, converter = ReplayDataList_Converter.class)
     private ReplayDataBean reply_data;
     private int is_gl;
+    private int is_gf;
 
 
-    @Generated(hash = 2068687738)
+    @Generated(hash = 1295295113)
     public SendMessageResponse(Long id, ImgBean img, int sendId, int manager, String headImg, int getId,
             int groupId, String groupImage, int pbgid, int assignType, int pid, int uid, int totype,
             String groupName, String contents, String addtime, String togroups, int isread,
             String nikeName, String touids, String updatetime, String assignTo, boolean red_status,
             String tag, int messageId, int is_zl, int unread, int sort, int replay_pid, int replystatus,
-            String reply, ReplayDataBean reply_data, int is_gl) {
+            String reply, ReplayDataBean reply_data, int is_gl, int is_gf) {
         this.id = id;
         this.img = img;
         this.sendId = sendId;
@@ -114,12 +115,21 @@ public class SendMessageResponse implements MultiItemEntity {
         this.reply = reply;
         this.reply_data = reply_data;
         this.is_gl = is_gl;
+        this.is_gf = is_gf;
     }
 
     @Generated(hash = 1719041837)
     public SendMessageResponse() {
     }
 
+
+    public int getIs_gf() {
+        return is_gf;
+    }
+
+    public void setIs_gf(int is_gf) {
+        this.is_gf = is_gf;
+    }
 
     public int getIs_gl() {
         return is_gl;

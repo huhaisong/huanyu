@@ -1,6 +1,8 @@
 package caixin.android.com.view.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +14,12 @@ import com.caixin.huanyu.R;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.download.DownloadListener;
 
+import java.io.File;
+
+import caixin.android.com.service.DownloadAppService;
 import caixin.android.com.utils.ImgLoader;
 import caixin.android.com.utils.ToastUtils;
 
@@ -24,6 +31,7 @@ public class SimplePlayer extends AppCompatActivity {
     StandardGSYVideoPlayer videoPlayer;
 
     OrientationUtils orientationUtils;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +93,59 @@ public class SimplePlayer extends AppCompatActivity {
         videoPlayer.setNeedOrientationUtils(false);
 
         videoPlayer.startPlayLogic();
+
+        findViewById(R.id.iv_download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProgressDialog = new ProgressDialog(SimplePlayer.this);
+                mProgressDialog.setTitle("开始下载视频");
+                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setCanceledOnTouchOutside(false);
+                if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+                    mProgressDialog.show();
+                    mProgressDialog.setCancelable(false);
+                }
+
+                DownloadAppService.downloadApp(source1, new DownloadListener() {
+                    @Override
+                    public void onDownloadError(int what, Exception exception) {
+                        if (mProgressDialog != null && mProgressDialog.isShowing())
+                            mProgressDialog.dismiss();
+                        ToastUtils.show(exception.getMessage());
+                    }
+
+                    @Override
+                    public void onStart(int what, boolean isResume, long rangeSize, Headers responseHeaders, long allCount) {
+                        if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+                            mProgressDialog.setMax(100);
+                            mProgressDialog.setProgress(0);
+                            mProgressDialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onProgress(int what, int progress, long fileCount, long speed) {
+                        if (mProgressDialog != null && mProgressDialog.isShowing())
+                            mProgressDialog.setProgress(progress);
+                    }
+
+                    @Override
+                    public void onFinish(int what, String filePath) {
+                        if (mProgressDialog != null && mProgressDialog.isShowing())
+                            mProgressDialog.dismiss();
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));
+                        ToastUtils.show("下载完成");
+                    }
+
+                    @Override
+                    public void onCancel(int what) {
+                        if (mProgressDialog != null && mProgressDialog.isShowing())
+                            mProgressDialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 
 

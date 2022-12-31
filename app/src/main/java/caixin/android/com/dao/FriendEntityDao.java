@@ -42,6 +42,7 @@ public class FriendEntityDao extends AbstractDao<FriendEntity, Long> {
         public final static Property Totype = new Property(15, int.class, "totype", false, "TOTYPE");
         public final static Property IsBlack = new Property(16, int.class, "isBlack", false, "IS_BLACK");
         public final static Property Signature = new Property(17, String.class, "signature", false, "SIGNATURE");
+        public final static Property Is_gf = new Property(18, int.class, "is_gf", false, "IS_GF");
     }
 
 
@@ -74,7 +75,8 @@ public class FriendEntityDao extends AbstractDao<FriendEntity, Long> {
                 "\"REMIND\" INTEGER NOT NULL ," + // 14: remind
                 "\"TOTYPE\" INTEGER NOT NULL ," + // 15: totype
                 "\"IS_BLACK\" INTEGER NOT NULL ," + // 16: isBlack
-                "\"SIGNATURE\" TEXT);"); // 17: signature
+                "\"SIGNATURE\" TEXT," + // 17: signature
+                "\"IS_GF\" INTEGER NOT NULL );"); // 18: is_gf
     }
 
     /** Drops the underlying database table. */
@@ -136,6 +138,7 @@ public class FriendEntityDao extends AbstractDao<FriendEntity, Long> {
         if (signature != null) {
             stmt.bindString(18, signature);
         }
+        stmt.bindLong(19, entity.getIs_gf());
     }
 
     @Override
@@ -191,6 +194,7 @@ public class FriendEntityDao extends AbstractDao<FriendEntity, Long> {
         if (signature != null) {
             stmt.bindString(18, signature);
         }
+        stmt.bindLong(19, entity.getIs_gf());
     }
 
     @Override
@@ -218,7 +222,8 @@ public class FriendEntityDao extends AbstractDao<FriendEntity, Long> {
             cursor.getInt(offset + 14), // remind
             cursor.getInt(offset + 15), // totype
             cursor.getInt(offset + 16), // isBlack
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17) // signature
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // signature
+            cursor.getInt(offset + 18) // is_gf
         );
         return entity;
     }
@@ -243,6 +248,7 @@ public class FriendEntityDao extends AbstractDao<FriendEntity, Long> {
         entity.setTotype(cursor.getInt(offset + 15));
         entity.setIsBlack(cursor.getInt(offset + 16));
         entity.setSignature(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setIs_gf(cursor.getInt(offset + 18));
      }
     
     @Override
